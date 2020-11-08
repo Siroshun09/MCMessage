@@ -26,8 +26,8 @@ import java.util.Locale;
 
 public interface TranslationRegistry {
 
-    static TranslationRegistry create(@NotNull Translation defaultTranslation) {
-        return new TranslationRegistryImpl(defaultTranslation);
+    static TranslationRegistry create() {
+        return new TranslationRegistryImpl();
     }
 
     void register(@NotNull Translation translation);
@@ -37,10 +37,6 @@ public interface TranslationRegistry {
     void unregister(@NotNull Translation translation);
 
     void unregisterAll();
-
-    @NotNull Translation getDefault();
-
-    void setDefault(@NotNull Translation translation);
 
     @Nullable Translation getTranslation(@NotNull Locale locale);
 

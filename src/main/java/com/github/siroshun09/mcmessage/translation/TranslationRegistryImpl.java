@@ -29,10 +29,8 @@ import java.util.Objects;
 class TranslationRegistryImpl implements TranslationRegistry {
 
     private final Map<Locale, Translation> translations = new HashMap<>();
-    private Translation def;
 
-    TranslationRegistryImpl(@NotNull Translation def) {
-        this.def = Objects.requireNonNull(def);
+    TranslationRegistryImpl() {
     }
 
     @Override
@@ -70,16 +68,6 @@ class TranslationRegistryImpl implements TranslationRegistry {
     }
 
     @Override
-    public @NotNull Translation getDefault() {
-        return def;
-    }
-
-    @Override
-    public void setDefault(@NotNull Translation translation) {
-        def = Objects.requireNonNull(translation);
-    }
-
-    @Override
     public @Nullable Translation getTranslation(@NotNull Locale locale) {
         return translations.get(locale);
     }
@@ -102,7 +90,7 @@ class TranslationRegistryImpl implements TranslationRegistry {
         }
         if (o instanceof TranslationRegistryImpl) {
             TranslationRegistryImpl that = (TranslationRegistryImpl) o;
-            return def.equals(that.def) && translations.equals(that.translations);
+            return translations.equals(that.translations);
         } else {
             return false;
         }
@@ -110,14 +98,13 @@ class TranslationRegistryImpl implements TranslationRegistry {
 
     @Override
     public int hashCode() {
-        return Objects.hash(def, translations);
+        return Objects.hash(translations);
     }
 
     @Override
     public String toString() {
         return "TranslationRegistryImpl{" +
-                "def=" + def +
-                ", translations=" + translations +
+                "translations=" + translations +
                 '}';
     }
 }

@@ -49,4 +49,34 @@ public class InvalidMessage {
         INVALID_FORMAT,
         DUPLICATE_KEY
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o instanceof InvalidMessage) {
+            InvalidMessage that = (InvalidMessage) o;
+            return getLine() == that.getLine() &&
+                    str.equals(that.str) &&
+                    getReason() == that.getReason();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getLine(), str, getReason());
+    }
+
+    @Override
+    public String toString() {
+        return "InvalidMessage{" +
+                "line=" + line +
+                ", str='" + str + '\'' +
+                ", reason=" + reason +
+                '}';
+    }
 }

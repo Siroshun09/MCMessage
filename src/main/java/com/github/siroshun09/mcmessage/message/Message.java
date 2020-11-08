@@ -16,6 +16,7 @@
 
 package com.github.siroshun09.mcmessage.message;
 
+import com.github.siroshun09.mcmessage.builder.PlainTextBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -28,4 +29,8 @@ public interface Message {
     }
 
     @NotNull String get();
+
+    default @NotNull PlainTextBuilder toPlainTextBuilder() {
+        return new PlainTextBuilder(this);
+    }
 }

@@ -20,6 +20,7 @@ import com.github.siroshun09.mcmessage.MessageHoldable;
 import com.github.siroshun09.mcmessage.translation.Translation;
 import com.github.siroshun09.mcmessage.util.InvalidMessage;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
@@ -43,5 +44,12 @@ public interface LanguageLoader extends MessageHoldable {
 
     @NotNull @Unmodifiable Set<InvalidMessage> load() throws IOException;
 
+    default @Nullable Translation toTranslation() {
+        Locale locale = parseLocaleFromFileName();
+        return locale != null ? toTranslation(locale) : null;
+    }
+
     @NotNull Translation toTranslation(@NotNull Locale locale);
+
+    @Nullable Locale parseLocaleFromFileName();
 }

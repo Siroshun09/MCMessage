@@ -102,6 +102,12 @@ class PropertiesFileLoader implements LanguageLoader {
     }
 
     @Override
+    public @Nullable Locale parseLocaleFromFileName() {
+        String fileName = filePath.getFileName().toString();
+        return Translation.parseLocale(fileName.substring(0, fileName.length() - 11)); // .properties
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

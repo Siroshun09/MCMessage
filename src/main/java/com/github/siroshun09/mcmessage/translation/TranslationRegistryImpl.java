@@ -28,8 +28,8 @@ import java.util.Objects;
 
 class TranslationRegistryImpl implements TranslationRegistry {
 
-    private final Translation def;
     private final Map<Locale, Translation> translations = new HashMap<>();
+    private Translation def;
 
     TranslationRegistryImpl(@NotNull Translation def) {
         this.def = Objects.requireNonNull(def);
@@ -72,6 +72,11 @@ class TranslationRegistryImpl implements TranslationRegistry {
     @Override
     public @NotNull Translation getDefault() {
         return def;
+    }
+
+    @Override
+    public void setDefault(@NotNull Translation translation) {
+        def = Objects.requireNonNull(translation);
     }
 
     @Override

@@ -40,6 +40,8 @@ public interface TranslationRegistry {
 
     @NotNull Translation getDefault();
 
+    void setDefault(@NotNull Translation translation);
+
     @Nullable Translation getTranslation(@NotNull Locale locale);
 
     @NotNull Collection<Translation> getTranslations();

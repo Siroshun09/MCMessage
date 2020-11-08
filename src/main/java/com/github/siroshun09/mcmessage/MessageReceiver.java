@@ -19,7 +19,11 @@ package com.github.siroshun09.mcmessage;
 import com.github.siroshun09.mcmessage.message.Message;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 public interface MessageReceiver {
+
+    @NotNull Locale getLocale();
 
     void sendMessage(@NotNull String str);
 

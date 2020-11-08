@@ -20,6 +20,7 @@ import com.github.siroshun09.mcmessage.MessageHoldable;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.Message;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Map;
@@ -33,6 +34,29 @@ public interface Translation extends MessageHoldable {
 
     static Translation of(@NotNull Locale locale, @NotNull Map<String, Message> messages) {
         return new TranslationImpl(locale, messages);
+    }
+
+    static @Nullable Locale parseLocale(String str) {
+        if (str == null || str.isEmpty()) {
+            return null;
+        }
+
+        String[] segments = str.split("_", 3);
+        int length = segments.length;
+
+        if (length == 1) {
+            return new Locale(str); // language
+        }
+
+        if (length == 2) {
+            return new Locale(segments[0], segments[1]); // language + country
+        }
+
+        if (length == 3) {
+            return new Locale(segments[0], segments[1], segments[2]); // language + country + variant
+        }
+
+        return null;
     }
 
     @NotNull Locale getLocale();

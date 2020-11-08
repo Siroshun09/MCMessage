@@ -28,11 +28,11 @@ import java.util.Set;
 
 public interface Translation extends MessageHoldable {
 
-    static Translation of(@NotNull Locale locale, @NotNull Set<KeyedMessage> messages) {
+    static @NotNull Translation of(@NotNull Locale locale, @NotNull Set<KeyedMessage> messages) {
         return new TranslationImpl(locale, messages);
     }
 
-    static Translation of(@NotNull Locale locale, @NotNull Map<String, Message> messages) {
+    static @NotNull Translation of(@NotNull Locale locale, @NotNull Map<String, Message> messages) {
         return new TranslationImpl(locale, messages);
     }
 

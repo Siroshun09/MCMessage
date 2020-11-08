@@ -36,6 +36,8 @@ public interface TranslationRegistry {
 
     void unregister(@NotNull Translation translation);
 
+    void unregisterAll();
+
     @NotNull Translation getDefault();
 
     @Nullable Translation getTranslation(@NotNull Locale locale);

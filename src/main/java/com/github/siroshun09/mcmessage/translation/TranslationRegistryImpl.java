@@ -63,6 +63,13 @@ class TranslationRegistryImpl implements TranslationRegistry {
     }
 
     @Override
+    public void unregisterAll() {
+        synchronized (translations) {
+            translations.clear();
+        }
+    }
+
+    @Override
     public @NotNull Translation getDefault() {
         return def;
     }

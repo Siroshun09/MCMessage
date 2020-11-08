@@ -42,6 +42,10 @@ public interface LanguageLoader extends MessageHoldable {
         }
     }
 
+    static String getPropertiesFileExtension() {
+        return ".properties";
+    }
+
     @NotNull @Unmodifiable Set<InvalidMessage> load() throws IOException;
 
     default @Nullable Translation toTranslation() {

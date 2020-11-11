@@ -40,4 +40,32 @@ class RegexReplacerImpl implements RegexReplacer {
     public @NotNull String getReplacement() {
         return replacement;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o instanceof RegexReplacerImpl) {
+            RegexReplacerImpl that = (RegexReplacerImpl) o;
+            return Objects.equals(getPattern(), that.getPattern()) &&
+                    Objects.equals(getReplacement(), that.getReplacement());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPattern(), getReplacement());
+    }
+
+    @Override
+    public String toString() {
+        return "RegexReplacerImpl{" +
+                "pattern=" + pattern +
+                ", replacement='" + replacement + '\'' +
+                '}';
+    }
 }

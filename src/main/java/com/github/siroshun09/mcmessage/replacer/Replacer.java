@@ -18,34 +18,24 @@ package com.github.siroshun09.mcmessage.replacer;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+public interface Replacer {
 
-public interface RegexPlaceholder extends Placeholder {
-
-    static RegexPlaceholder create(@NotNull Pattern pattern, @NotNull String replacement) {
-        return new RegexPlaceholderImpl(pattern, replacement);
+    static Replacer create(@NotNull String placeholder, @NotNull String replacement) {
+        return new ReplacerImpl(placeholder, replacement);
     }
 
-    static RegexPlaceholder create(@NotNull String pattern, @NotNull String replacement) throws PatternSyntaxException {
-        return create(Pattern.compile(pattern), replacement);
-    }
-
-    @NotNull Pattern getPattern();
-
-    @Override
     @NotNull
-    default String getPlaceholder() {
-        return getPattern().toString();
-    }
+    String getPlaceholder();
 
-    @Override
+    @NotNull
+    String getReplacement();
+
     @NotNull
     default String replace(String str) {
         if (str == null || str.isEmpty()) {
             return "";
         }
 
-        return getPattern().matcher(str).replaceAll(getReplacement());
+        return str.replace(getPlaceholder(), getReplacement());
     }
 }

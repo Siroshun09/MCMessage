@@ -20,12 +20,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-class PlaceholderImpl implements Placeholder {
+class ReplacerImpl implements Replacer {
 
     private final String placeholder;
     private final String replacement;
 
-    PlaceholderImpl(@NotNull String placeholder, @NotNull String replacement) {
+    ReplacerImpl(@NotNull String placeholder, @NotNull String replacement) {
         this.placeholder = Objects.requireNonNull(placeholder);
         this.replacement = Objects.requireNonNull(replacement);
     }
@@ -48,8 +48,8 @@ class PlaceholderImpl implements Placeholder {
             return true;
         }
 
-        if (o instanceof Placeholder) {
-            Placeholder that = (Placeholder) o;
+        if (o instanceof Replacer) {
+            Replacer that = (Replacer) o;
             return getPlaceholder().equals(that.getPlaceholder()) && getReplacement().equals(that.getReplacement());
         } else {
             return false;
@@ -63,7 +63,7 @@ class PlaceholderImpl implements Placeholder {
 
     @Override
     public String toString() {
-        return "PlaceholderImpl{" +
+        return "ReplacerImpl{" +
                 "placeholder='" + placeholder + '\'' +
                 ", replacement='" + replacement + '\'' +
                 '}';

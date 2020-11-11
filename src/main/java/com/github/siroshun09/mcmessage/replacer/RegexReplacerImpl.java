@@ -21,12 +21,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-class RegexPlaceholderImpl implements RegexPlaceholder {
+class RegexReplacerImpl implements RegexReplacer {
 
     private final Pattern pattern;
     private final String replacement;
 
-    RegexPlaceholderImpl(@NotNull Pattern pattern, @NotNull String replacement) {
+    RegexReplacerImpl(@NotNull Pattern pattern, @NotNull String replacement) {
         this.pattern = Objects.requireNonNull(pattern);
         this.replacement = Objects.requireNonNull(replacement);
     }

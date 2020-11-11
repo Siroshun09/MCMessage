@@ -18,7 +18,7 @@ package com.github.siroshun09.mcmessage.builder;
 
 import com.github.siroshun09.mcmessage.MessageReceiver;
 import com.github.siroshun09.mcmessage.message.Message;
-import com.github.siroshun09.mcmessage.replacer.Placeholder;
+import com.github.siroshun09.mcmessage.replacer.Replacer;
 import com.github.siroshun09.mcmessage.util.Colorizer;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,8 +33,8 @@ public class PlainTextBuilder implements Builder<Message> {
     }
 
     @NotNull
-    public PlainTextBuilder replace(@NotNull Placeholder placeholder) {
-        str = placeholder.replace(getString());
+    public PlainTextBuilder replace(@NotNull Replacer replacer) {
+        str = replacer.replace(getString());
         return this;
     }
 

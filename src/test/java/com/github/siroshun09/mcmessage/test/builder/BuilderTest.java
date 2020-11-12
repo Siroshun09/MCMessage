@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 class BuilderTest {
 
     private static final Message ORIGINAL_1 = () -> "&7username: &#123456%user% &8(#%id%, %id%, %id)";
-    private static final String EXCEPT_1 = "[Prefix] §7username: §x§1§2§3§4§5§6test §8(#10, 10, %id) [Suffix]";
+    private static final String EXPECT_1 = "[Prefix] §7username: §x§1§2§3§4§5§6test §8(#10, 10, %id) [Suffix]";
     private static final String USERNAME = "test";
     private static final String PREFIX = "[Prefix] ";
     private static final String SUFFIX = " [Suffix]";
@@ -43,6 +43,6 @@ class BuilderTest {
                         .replace(ID_PLACEHOLDER.toReplacer(ID))
                         .setColorize(true)
                         .build();
-        Assertions.assertEquals(EXCEPT_1, message.get());
+        Assertions.assertEquals(EXPECT_1, message.get());
     }
 }

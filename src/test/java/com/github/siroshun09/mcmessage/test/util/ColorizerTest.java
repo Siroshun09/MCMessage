@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.github.siroshun09.mcmessage.text.util;
+package com.github.siroshun09.mcmessage.test.util;
 
 import com.github.siroshun09.mcmessage.util.Colorizer;
 import org.junit.jupiter.api.Assertions;

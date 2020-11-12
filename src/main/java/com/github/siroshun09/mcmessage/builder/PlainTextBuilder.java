@@ -18,24 +18,64 @@ package com.github.siroshun09.mcmessage.builder;
 
 import com.github.siroshun09.mcmessage.MessageReceiver;
 import com.github.siroshun09.mcmessage.message.Message;
+import com.github.siroshun09.mcmessage.replacer.FunctionalPlaceholder;
+import com.github.siroshun09.mcmessage.replacer.Placeholder;
 import com.github.siroshun09.mcmessage.replacer.Replacer;
 import com.github.siroshun09.mcmessage.util.Colorizer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class PlainTextBuilder implements Builder<Message> {
 
-    private final Message original;
-    private String str;
+    private final StringBuilder builder;
     private boolean colorize;
 
     public PlainTextBuilder(@NotNull Message original) {
-        this.original = original;
+        Objects.requireNonNull(original);
+
+        this.builder = new StringBuilder(original.get());
+    }
+
+    public @NotNull PlainTextBuilder append(@NotNull String str) {
+        builder.append(str);
+        return this;
+    }
+
+    public @NotNull PlainTextBuilder append(@NotNull Message message) {
+        return append(message.get());
+    }
+
+    public @NotNull PlainTextBuilder addPrefix(@NotNull String str) {
+        builder.insert(0, str);
+        return this;
+    }
+
+    public @NotNull PlainTextBuilder addPrefix(@NotNull Message message) {
+        return addPrefix(message.get());
     }
 
     @NotNull
     public PlainTextBuilder replace(@NotNull Replacer replacer) {
-        str = replacer.replace(getString());
+        int length = replacer.getPlaceholder().length();
+        int startIndex = builder.indexOf(replacer.getPlaceholder());
+
+        while (-1 < startIndex) {
+            builder.replace(startIndex, startIndex + length, replacer.getReplacement());
+            startIndex = builder.indexOf(replacer.getPlaceholder(), startIndex + 1);
+        }
+
         return this;
+    }
+
+    @NotNull
+    public PlainTextBuilder replace(@NotNull Placeholder placeholder, @NotNull String replacement) {
+        return replace(placeholder.toReplacer(replacement));
+    }
+
+    @NotNull
+    public <T> PlainTextBuilder replace(@NotNull FunctionalPlaceholder<T> placeholder, @NotNull T value) {
+        return replace(placeholder.toReplacer(value));
     }
 
     @NotNull
@@ -47,22 +87,13 @@ public class PlainTextBuilder implements Builder<Message> {
     @Override
     public @NotNull Message build() {
         if (colorize) {
-            str = Colorizer.colorize(getString());
+            Colorizer.colorize(builder);
         }
 
-        return this::getString;
+        return builder::toString;
     }
 
     public void send(@NotNull MessageReceiver messageReceiver) {
         messageReceiver.sendMessage(build());
-    }
-
-    @NotNull
-    private String getString() {
-        if (str == null) {
-            str = original.get();
-        }
-
-        return str;
     }
 }

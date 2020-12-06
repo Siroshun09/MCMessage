@@ -28,12 +28,6 @@ public interface Replacer extends Placeholder {
     @NotNull
     String getReplacement();
 
-    @Override
-    @NotNull
-    default Replacer toReplacer(@NotNull String replacement) {
-        return create(getPlaceholder(), replacement);
-    }
-
     @NotNull
     default String replace(String str) {
         if (str == null || str.isEmpty()) {

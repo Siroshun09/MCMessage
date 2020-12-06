@@ -16,6 +16,7 @@
 
 package com.github.siroshun09.mcmessage.replacer;
 
+import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -30,5 +31,12 @@ public interface FunctionalPlaceholder<T> extends Placeholder {
 
     default @NotNull Replacer toReplacer(@NotNull T value) {
         return Replacer.create(getPlaceholder(), getFunction().apply(value));
+    }
+
+    default @NotNull TextReplacementConfig toTextReplacementConfig(@NotNull T value) {
+        return TextReplacementConfig.builder()
+                .match(getPlaceholder())
+                .replacement(getFunction().apply(value))
+                .build();
     }
 }

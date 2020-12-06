@@ -16,6 +16,7 @@
 
 package com.github.siroshun09.mcmessage.replacer;
 
+import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.NotNull;
 
 public interface Placeholder {
@@ -24,5 +25,12 @@ public interface Placeholder {
 
     default @NotNull Replacer toReplacer(@NotNull String replacement) {
         return Replacer.create(getPlaceholder(), replacement);
+    }
+
+    default @NotNull TextReplacementConfig toTextReplacementConfig(@NotNull String replacement) {
+        return TextReplacementConfig.builder()
+                .match(getPlaceholder())
+                .replacement(replacement)
+                .build();
     }
 }

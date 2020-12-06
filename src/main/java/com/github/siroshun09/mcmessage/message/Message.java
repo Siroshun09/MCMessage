@@ -17,6 +17,9 @@
 package com.github.siroshun09.mcmessage.message;
 
 import com.github.siroshun09.mcmessage.builder.PlainTextBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -32,5 +35,13 @@ public interface Message {
 
     default @NotNull PlainTextBuilder toPlainTextBuilder() {
         return new PlainTextBuilder(this);
+    }
+
+    default @NotNull TextComponent toTextComponent() {
+        return Component.text(get());
+    }
+
+    default @NotNull TextComponent toColorizedComponent() {
+        return LegacyComponentSerializer.legacySection().deserialize(get());
     }
 }

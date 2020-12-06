@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class ComponentPlaceholderImpl<T, C extends Component> implements ComponentPlaceholder<T, C> {
+class ComponentPlaceholderImpl<T, C extends Component> implements ComponentPlaceholder<T, C> {
 
     private final String placeholder;
     private final Function<T, C> function;

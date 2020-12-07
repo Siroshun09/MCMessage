@@ -16,11 +16,28 @@
 
 package com.github.siroshun09.mcmessage.message;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public interface TranslatedMessage extends Message {
+
+    static @NotNull TranslatedMessage of(@NotNull String message, @NotNull Locale locale) {
+        return new TranslatedMessageImpl(message, locale);
+    }
+
+    static @NotNull TranslatedMessage of(@NotNull Message message, @NotNull Locale locale) {
+        Objects.requireNonNull(message);
+        return new TranslatedMessageImpl(message.get(), locale);
+    }
+
+    static @NotNull TranslatedMessage of(@NotNull Component component, @NotNull Locale locale) {
+        Objects.requireNonNull(component);
+        return new TranslatedMessageImpl(LegacyComponentSerializer.legacySection().serialize(component), locale);
+    }
 
     @NotNull Locale getLocale();
 }

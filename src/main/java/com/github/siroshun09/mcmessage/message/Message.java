@@ -31,6 +31,11 @@ public interface Message {
         return new MessageImpl(message);
     }
 
+    static @NotNull Message of(@NotNull Component component) {
+        Objects.requireNonNull(component);
+        return new MessageImpl(LegacyComponentSerializer.legacySection().serialize(component));
+    }
+
     @NotNull String get();
 
     default @NotNull PlainTextBuilder toPlainTextBuilder() {

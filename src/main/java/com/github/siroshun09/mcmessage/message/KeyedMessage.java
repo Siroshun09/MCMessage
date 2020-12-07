@@ -24,14 +24,14 @@ import java.util.Objects;
 
 public interface KeyedMessage extends Message {
 
-    static KeyedMessage of(@NotNull String key, @NotNull String message) {
+    static @NotNull KeyedMessage of(@NotNull String key, @NotNull String message) {
         Objects.requireNonNull(key);
         Objects.requireNonNull(message);
 
         return new KeyedMessageImpl(key, message);
     }
 
-    static KeyedMessage of(@NotNull String key, @NotNull Component component) {
+    static @NotNull KeyedMessage of(@NotNull String key, @NotNull Component component) {
         Objects.requireNonNull(component);
         return new KeyedMessageImpl(key, LegacyComponentSerializer.legacySection().serialize(component));
     }

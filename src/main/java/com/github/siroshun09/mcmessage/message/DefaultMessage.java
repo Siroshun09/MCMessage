@@ -24,16 +24,16 @@ import java.util.Objects;
 
 public interface DefaultMessage extends KeyedMessage {
 
-    static DefaultMessage of(@NotNull String key, @NotNull String def) {
+    static @NotNull DefaultMessage of(@NotNull String key, @NotNull String def) {
         return new DefaultMessageImpl(key, def);
     }
 
-    static DefaultMessage of(@NotNull String key, @NotNull Message message) {
+    static @NotNull DefaultMessage of(@NotNull String key, @NotNull Message message) {
         Objects.requireNonNull(message);
         return new DefaultMessageImpl(key, message.get());
     }
 
-    static DefaultMessage of(@NotNull String key, @NotNull Component component) {
+    static @NotNull DefaultMessage of(@NotNull String key, @NotNull Component component) {
         Objects.requireNonNull(component);
         return new DefaultMessageImpl(key, LegacyComponentSerializer.legacyAmpersand().serialize(component));
     }

@@ -46,9 +46,9 @@ class KeyedMessageImpl implements KeyedMessage {
             return true;
         }
 
-        if (o instanceof KeyedMessageImpl) {
-            KeyedMessageImpl that = (KeyedMessageImpl) o;
-            return key.equals(that.key) && message.equals(that.message);
+        if (o instanceof KeyedMessage) {
+            KeyedMessage that = (KeyedMessage) o;
+            return key.equals(that.getKey()) && message.equals(that.get());
         } else {
             return false;
         }

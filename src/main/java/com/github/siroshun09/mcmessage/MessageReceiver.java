@@ -25,11 +25,13 @@ import java.util.Locale;
 
 public interface MessageReceiver {
 
-    @NotNull Audience getAudience();
-
     @NotNull Locale getLocale();
 
     void sendMessage(@NotNull String str);
+
+    default @NotNull Audience getAudience() {
+        return Audience.empty();
+    }
 
     default void sendMessage(@NotNull Message Message) {
         sendMessage(Message.get());

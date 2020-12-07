@@ -16,27 +16,37 @@
 
 package com.github.siroshun09.mcmessage.replacer;
 
+import com.github.siroshun09.mcmessage.util.Colorizer;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-public interface FunctionalPlaceholder<T> extends Placeholder {
+public interface ComponentPlaceholder<T, C extends Component> extends FunctionalPlaceholder<T> {
 
-    static <T> FunctionalPlaceholder<T> create(@NotNull String placeholder, @NotNull Function<T, String> function) {
-        return new FunctionalPlaceholderImpl<>(placeholder, function);
+    static <T, C extends Component> ComponentPlaceholderImpl<T, C> create(@NotNull String placeholder, @NotNull Function<T, C> function) {
+        return new ComponentPlaceholderImpl<>(placeholder, function);
     }
 
-    @NotNull Function<T, String> getFunction();
+    @NotNull C createComponent(T value);
 
-    default @NotNull Replacer toReplacer(@NotNull T value) {
-        return Replacer.create(getPlaceholder(), getFunction().apply(value));
+    @Override
+    @NotNull
+    default Function<T, String> getFunction() {
+        return v -> {
+            var component = createComponent(v);
+            var serialized = LegacyComponentSerializer.legacySection().serialize(component);
+            return Colorizer.colorize(serialized);
+        };
     }
 
+    @Override
     default @NotNull TextReplacementConfig toTextReplacementConfig(@NotNull T value) {
         return TextReplacementConfig.builder()
                 .match(getPlaceholder())
-                .replacement(getFunction().apply(value))
+                .replacement(createComponent(value))
                 .build();
     }
 }

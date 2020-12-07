@@ -19,17 +19,36 @@ package com.github.siroshun09.mcmessage.replacer;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.NotNull;
 
-public interface Placeholder {
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
-    @NotNull String getPlaceholder();
+public interface RegexPlaceholder extends Placeholder {
 
-    default @NotNull Replacer toReplacer(@NotNull String replacement) {
-        return Replacer.create(getPlaceholder(), replacement);
+    static @NotNull RegexPlaceholder create(@NotNull Pattern pattern) {
+        return new RegexPlaceholderImpl(pattern);
     }
 
+    static @NotNull RegexPlaceholder create(@NotNull String pattern) throws PatternSyntaxException {
+        return create(Pattern.compile(pattern));
+    }
+
+    @NotNull Pattern getPattern();
+
+    @Override
+    default @NotNull String getPlaceholder() {
+        return getPattern().toString();
+    }
+
+    @Override
+    @NotNull
+    default Replacer toReplacer(@NotNull String replacement) {
+        return RegexReplacer.create(getPattern(), replacement);
+    }
+
+    @Override
     default @NotNull TextReplacementConfig toTextReplacementConfig(@NotNull String replacement) {
         return TextReplacementConfig.builder()
-                .match(getPlaceholder())
+                .match(getPattern())
                 .replacement(replacement)
                 .build();
     }

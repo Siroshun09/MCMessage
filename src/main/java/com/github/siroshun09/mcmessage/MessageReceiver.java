@@ -17,11 +17,15 @@
 package com.github.siroshun09.mcmessage;
 
 import com.github.siroshun09.mcmessage.message.Message;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
 public interface MessageReceiver {
+
+    @NotNull Audience getAudience();
 
     @NotNull Locale getLocale();
 
@@ -29,5 +33,9 @@ public interface MessageReceiver {
 
     default void sendMessage(@NotNull Message Message) {
         sendMessage(Message.get());
+    }
+
+    default void sendMessage(@NotNull Component component) {
+        getAudience().sendMessage(component);
     }
 }

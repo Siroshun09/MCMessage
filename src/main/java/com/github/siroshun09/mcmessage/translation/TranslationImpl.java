@@ -18,6 +18,7 @@ package com.github.siroshun09.mcmessage.translation;
 
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.Message;
+import com.github.siroshun09.mcmessage.message.TranslatedMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -31,10 +32,19 @@ import java.util.stream.Collectors;
 public class TranslationImpl implements Translation {
 
     private final Locale locale;
-    private final Map<String, Message> messages;
+    private final Map<String, TranslatedMessage> messages;
 
     TranslationImpl(@NotNull Locale locale, @NotNull Set<KeyedMessage> messages) {
-        this(locale, messages.stream().collect(Collectors.toMap(KeyedMessage::getKey, m -> Message.of(m.get()))));
+        Objects.requireNonNull(locale);
+        Objects.requireNonNull(messages);
+
+        this.locale = locale;
+        this.messages =
+                messages.stream()
+                        .collect(Collectors.toMap(
+                                KeyedMessage::getKey,
+                                m -> TranslatedMessage.of(m, locale))
+                        );
     }
 
     TranslationImpl(@NotNull Locale locale, @NotNull Map<String, Message> messages) {
@@ -42,7 +52,14 @@ public class TranslationImpl implements Translation {
         Objects.requireNonNull(messages);
 
         this.locale = locale;
-        this.messages = messages;
+        this.messages =
+                messages.entrySet().stream()
+                        .filter(e -> Objects.nonNull(e.getKey()))
+                        .filter(e -> Objects.nonNull(e.getValue()))
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                e -> TranslatedMessage.of(e.getValue(), locale)
+                        ));
     }
 
     @Override
@@ -51,7 +68,7 @@ public class TranslationImpl implements Translation {
     }
 
     @Override
-    public @Nullable Message getMessage(@NotNull String key) {
+    public @Nullable TranslatedMessage getMessage(@NotNull String key) {
         Objects.requireNonNull(key);
         return messages.get(key);
     }
@@ -59,7 +76,7 @@ public class TranslationImpl implements Translation {
     @Override
     public @NotNull @Unmodifiable Set<KeyedMessage> getMessages() {
         return messages.entrySet().stream()
-                .map(entry -> KeyedMessage.of(entry.getKey(), entry.getValue().get()))
+                .map(entry -> KeyedMessage.of(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toUnmodifiableSet());
     }
 
@@ -69,8 +86,8 @@ public class TranslationImpl implements Translation {
             return true;
         }
 
-        if (o instanceof TranslationImpl) {
-            TranslationImpl that = (TranslationImpl) o;
+        if (o instanceof Translation) {
+            Translation that = (Translation) o;
             return getLocale().equals(that.getLocale()) &&
                     getMessages().equals(that.getMessages());
         } else {

@@ -31,6 +31,11 @@ public interface KeyedMessage extends Message {
         return new KeyedMessageImpl(key, message);
     }
 
+    static @NotNull KeyedMessage of(@NotNull String key, @NotNull Message message) {
+        Objects.requireNonNull(message);
+        return new KeyedMessageImpl(key, message.get());
+    }
+
     static @NotNull KeyedMessage of(@NotNull String key, @NotNull Component component) {
         Objects.requireNonNull(component);
         return new KeyedMessageImpl(key, LegacyComponentSerializer.legacySection().serialize(component));

@@ -26,8 +26,8 @@ class KeyedMessageImpl implements KeyedMessage {
     private final String message;
 
     KeyedMessageImpl(@NotNull String key, @NotNull String message) {
-        this.key = key;
-        this.message = message;
+        this.key = Objects.requireNonNull(key);
+        this.message = Objects.requireNonNull(message);
     }
 
     @Override

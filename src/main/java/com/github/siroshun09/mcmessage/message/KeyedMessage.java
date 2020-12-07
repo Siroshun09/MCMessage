@@ -25,9 +25,6 @@ import java.util.Objects;
 public interface KeyedMessage extends Message {
 
     static @NotNull KeyedMessage of(@NotNull String key, @NotNull String message) {
-        Objects.requireNonNull(key);
-        Objects.requireNonNull(message);
-
         return new KeyedMessageImpl(key, message);
     }
 

@@ -21,6 +21,10 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Placeholder {
 
+    static @NotNull Placeholder create(@NotNull String placeholder) {
+        return new PlaceholderImpl(placeholder);
+    }
+
     @NotNull String getPlaceholder();
 
     default @NotNull Replacer toReplacer(@NotNull String replacement) {

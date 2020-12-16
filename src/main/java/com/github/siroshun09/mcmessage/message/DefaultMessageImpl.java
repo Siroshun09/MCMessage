@@ -30,9 +30,8 @@ class DefaultMessageImpl implements DefaultMessage {
         this.def = Objects.requireNonNull(def);
     }
 
-    @NotNull
     @Override
-    public String getKey() {
+    public @NotNull String getKey() {
         return key;
     }
 

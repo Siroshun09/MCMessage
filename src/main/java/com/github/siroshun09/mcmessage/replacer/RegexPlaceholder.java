@@ -17,6 +17,7 @@
 package com.github.siroshun09.mcmessage.replacer;
 
 import net.kyori.adventure.text.TextReplacementConfig;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Pattern;
@@ -24,10 +25,13 @@ import java.util.regex.PatternSyntaxException;
 
 public interface RegexPlaceholder extends Placeholder {
 
+
+    @Contract(value = "_ -> new", pure = true)
     static @NotNull RegexPlaceholder create(@NotNull Pattern pattern) {
         return new RegexPlaceholderImpl(pattern);
     }
 
+    @Contract(value = "_ -> new", pure = true)
     static @NotNull RegexPlaceholder create(@NotNull String pattern) throws PatternSyntaxException {
         return create(Pattern.compile(pattern));
     }

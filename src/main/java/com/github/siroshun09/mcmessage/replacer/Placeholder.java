@@ -17,10 +17,12 @@
 package com.github.siroshun09.mcmessage.replacer;
 
 import net.kyori.adventure.text.TextReplacementConfig;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public interface Placeholder {
 
+    @Contract(value = "_ -> new", pure = true)
     static @NotNull Placeholder create(@NotNull String placeholder) {
         return new PlaceholderImpl(placeholder);
     }

@@ -20,17 +20,20 @@ import com.github.siroshun09.mcmessage.builder.PlainTextBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public interface Message {
 
+    @Contract("_ -> new")
     static @NotNull Message of(@NotNull String message) {
         Objects.requireNonNull(message);
         return new MessageImpl(message);
     }
 
+    @Contract("_ -> new")
     static @NotNull Message of(@NotNull Component component) {
         Objects.requireNonNull(component);
         return new MessageImpl(LegacyComponentSerializer.legacySection().serialize(component));

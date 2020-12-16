@@ -19,6 +19,7 @@ package com.github.siroshun09.mcmessage.loader;
 import com.github.siroshun09.mcmessage.MessageHoldable;
 import com.github.siroshun09.mcmessage.translation.Translation;
 import com.github.siroshun09.mcmessage.util.InvalidMessage;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -32,7 +33,8 @@ import java.util.Set;
 
 public interface LanguageLoader extends MessageHoldable {
 
-    static LanguageLoader fromPropertiesFile(@NotNull Path filePath) {
+    @Contract("_ -> new")
+    static @NotNull LanguageLoader fromPropertiesFile(@NotNull Path filePath) {
         Objects.requireNonNull(filePath);
 
         if (Files.exists(filePath)) {
@@ -42,7 +44,8 @@ public interface LanguageLoader extends MessageHoldable {
         }
     }
 
-    static String getPropertiesFileExtension() {
+    @Contract(pure = true)
+    static @NotNull String getPropertiesFileExtension() {
         return ".properties";
     }
 

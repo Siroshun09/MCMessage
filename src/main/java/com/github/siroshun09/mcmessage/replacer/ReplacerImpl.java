@@ -30,15 +30,13 @@ class ReplacerImpl implements Replacer {
         this.replacement = Objects.requireNonNull(replacement);
     }
 
-    @NotNull
     @Override
-    public String getPlaceholder() {
+    public @NotNull String getPlaceholder() {
         return placeholder;
     }
 
-    @NotNull
     @Override
-    public String getReplacement() {
+    public @NotNull String getReplacement() {
         return replacement;
     }
 

@@ -20,12 +20,14 @@ import com.github.siroshun09.mcmessage.util.Colorizer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 public interface ComponentPlaceholder<T, C extends Component> extends FunctionalPlaceholder<T> {
 
+    @Contract("_, _ -> new")
     static <T, C extends Component> ComponentPlaceholderImpl<T, C> create(@NotNull String placeholder, @NotNull Function<T, C> function) {
         return new ComponentPlaceholderImpl<>(placeholder, function);
     }
@@ -33,8 +35,7 @@ public interface ComponentPlaceholder<T, C extends Component> extends Functional
     @NotNull C createComponent(T value);
 
     @Override
-    @NotNull
-    default Function<T, String> getFunction() {
+    default @NotNull Function<T, String> getFunction() {
         return v -> {
             var component = createComponent(v);
             var serialized = LegacyComponentSerializer.legacySection().serialize(component);

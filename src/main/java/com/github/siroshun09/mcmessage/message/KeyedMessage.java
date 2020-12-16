@@ -18,21 +18,25 @@ package com.github.siroshun09.mcmessage.message;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public interface KeyedMessage extends Message {
 
+    @Contract("_, _ -> new")
     static @NotNull KeyedMessage of(@NotNull String key, @NotNull String message) {
         return new KeyedMessageImpl(key, message);
     }
 
+    @Contract("_, _ -> new")
     static @NotNull KeyedMessage of(@NotNull String key, @NotNull Message message) {
         Objects.requireNonNull(message);
         return new KeyedMessageImpl(key, message.get());
     }
 
+    @Contract("_, _ -> new")
     static @NotNull KeyedMessage of(@NotNull String key, @NotNull Component component) {
         Objects.requireNonNull(component);
         return new KeyedMessageImpl(key, LegacyComponentSerializer.legacySection().serialize(component));

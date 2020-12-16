@@ -17,11 +17,13 @@
 package com.github.siroshun09.mcmessage.replacer;
 
 import net.kyori.adventure.text.TextReplacementConfig;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public interface Replacer extends Placeholder {
 
-    static Replacer create(@NotNull String placeholder, @NotNull String replacement) {
+    @Contract("_, _ -> new")
+    static @NotNull Replacer create(@NotNull String placeholder, @NotNull String replacement) {
         return new ReplacerImpl(placeholder, replacement);
     }
 

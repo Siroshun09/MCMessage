@@ -17,13 +17,15 @@
 package com.github.siroshun09.mcmessage.replacer;
 
 import net.kyori.adventure.text.TextReplacementConfig;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 public interface FunctionalPlaceholder<T> extends Placeholder {
 
-    static <T> FunctionalPlaceholder<T> create(@NotNull String placeholder, @NotNull Function<T, String> function) {
+    @Contract("_, _ -> new")
+    static @NotNull <T> FunctionalPlaceholder<T> create(@NotNull String placeholder, @NotNull Function<T, String> function) {
         return new FunctionalPlaceholderImpl<>(placeholder, function);
     }
 

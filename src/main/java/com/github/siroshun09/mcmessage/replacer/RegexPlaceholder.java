@@ -78,7 +78,7 @@ public interface RegexPlaceholder extends Placeholder {
      * @return new {@link RegexPlaceholder}
      */
     @Override
-    default @NotNull Replacer toReplacer(@NotNull String replacement) {
+    default @NotNull RegexReplacer toReplacer(@NotNull String replacement) {
         return RegexReplacer.create(getPattern(), replacement);
     }
 

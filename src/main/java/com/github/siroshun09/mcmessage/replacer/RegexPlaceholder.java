@@ -20,6 +20,7 @@ import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -32,6 +33,7 @@ public interface RegexPlaceholder extends Placeholder {
 
     @Contract(value = "_ -> new", pure = true)
     static @NotNull RegexPlaceholder create(@NotNull String pattern) throws PatternSyntaxException {
+        Objects.requireNonNull(pattern);
         return create(Pattern.compile(pattern));
     }
 

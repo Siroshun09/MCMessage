@@ -30,7 +30,7 @@ import java.util.regex.PatternSyntaxException;
 public interface RegexPlaceholder extends Placeholder {
 
     /**
-     * Creates new {@link RegexPlaceholder}
+     * Creates new {@link RegexPlaceholder}.
      *
      * @param pattern a {@link Pattern}
      * @return new {@link RegexPlaceholder}
@@ -41,7 +41,7 @@ public interface RegexPlaceholder extends Placeholder {
     }
 
     /**
-     * Creates new {@link RegexPlaceholder}
+     * Creates new {@link RegexPlaceholder}.
      *
      * @param pattern a regex string to compile to {@link Pattern}
      * @return new {@link RegexPlaceholder}
@@ -54,7 +54,7 @@ public interface RegexPlaceholder extends Placeholder {
     }
 
     /**
-     * Gets the {@link Pattern}
+     * Gets the {@link Pattern}.
      *
      * @return the {@link Pattern}
      */

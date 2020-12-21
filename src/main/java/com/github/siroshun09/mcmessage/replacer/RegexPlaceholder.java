@@ -25,7 +25,6 @@ import java.util.regex.PatternSyntaxException;
 
 public interface RegexPlaceholder extends Placeholder {
 
-
     @Contract(value = "_ -> new", pure = true)
     static @NotNull RegexPlaceholder create(@NotNull Pattern pattern) {
         return new RegexPlaceholderImpl(pattern);

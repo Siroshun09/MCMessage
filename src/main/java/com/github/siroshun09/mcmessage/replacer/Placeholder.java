@@ -20,6 +20,8 @@ import net.kyori.adventure.text.TextReplacementConfig;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public interface Placeholder {
 
     @Contract(value = "_ -> new", pure = true)
@@ -30,10 +32,14 @@ public interface Placeholder {
     @NotNull String getPlaceholder();
 
     default @NotNull Replacer toReplacer(@NotNull String replacement) {
+        Objects.requireNonNull(replacement);
+
         return Replacer.create(getPlaceholder(), replacement);
     }
 
     default @NotNull TextReplacementConfig toTextReplacementConfig(@NotNull String replacement) {
+        Objects.requireNonNull(replacement);
+
         return TextReplacementConfig.builder()
                 .match(getPlaceholder())
                 .replacement(replacement)

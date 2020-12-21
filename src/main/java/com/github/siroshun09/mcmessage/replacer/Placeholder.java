@@ -22,21 +22,47 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * An interface that represents a placeholder.
+ */
 public interface Placeholder {
 
+    /**
+     * Creates new {@link Placeholder}.
+     *
+     * @param placeholder a placeholder string
+     * @return new {@link Placeholder}
+     */
     @Contract(value = "_ -> new", pure = true)
     static @NotNull Placeholder create(@NotNull String placeholder) {
         return new PlaceholderImpl(placeholder);
     }
 
+    /**
+     * Gets the placeholder string.
+     *
+     * @return the placeholder string
+     */
     @NotNull String getPlaceholder();
 
+    /**
+     * Creates {@link Replacer} with the replacement string.
+     *
+     * @param replacement a replacement string
+     * @return new {@link Replacer}
+     */
     default @NotNull Replacer toReplacer(@NotNull String replacement) {
         Objects.requireNonNull(replacement);
 
         return Replacer.create(getPlaceholder(), replacement);
     }
 
+    /**
+     * Creates {@link TextReplacementConfig} with the replacement string.
+     *
+     * @param replacement a replacement string
+     * @return new {@link TextReplacementConfig}
+     */
     default @NotNull TextReplacementConfig toTextReplacementConfig(@NotNull String replacement) {
         Objects.requireNonNull(replacement);
 

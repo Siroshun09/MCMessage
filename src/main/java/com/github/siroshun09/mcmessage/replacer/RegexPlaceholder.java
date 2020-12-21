@@ -43,8 +43,7 @@ public interface RegexPlaceholder extends Placeholder {
     }
 
     @Override
-    @NotNull
-    default Replacer toReplacer(@NotNull String replacement) {
+    default @NotNull Replacer toReplacer(@NotNull String replacement) {
         return RegexReplacer.create(getPattern(), replacement);
     }
 

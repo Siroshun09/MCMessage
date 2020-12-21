@@ -40,8 +40,8 @@ class RegexPlaceholderImpl implements RegexPlaceholder {
             return true;
         }
 
-        if (o instanceof RegexPlaceholder) {
-            RegexPlaceholder that = (RegexPlaceholder) o;
+        if (o instanceof RegexPlaceholderImpl) {
+            RegexPlaceholderImpl that = (RegexPlaceholderImpl) o;
             return getPattern().equals(that.getPattern());
         } else {
             return false;

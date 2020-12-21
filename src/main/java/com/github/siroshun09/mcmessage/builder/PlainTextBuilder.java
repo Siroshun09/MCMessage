@@ -33,8 +33,12 @@ public class PlainTextBuilder implements Builder<Message> {
 
     public PlainTextBuilder(@NotNull Message original) {
         Objects.requireNonNull(original);
-
         this.builder = new StringBuilder(original.get());
+    }
+
+    public PlainTextBuilder(@NotNull String original) {
+        Objects.requireNonNull(original);
+        this.builder = new StringBuilder(original);
     }
 
     public @NotNull PlainTextBuilder append(@NotNull String str) {

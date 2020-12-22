@@ -49,4 +49,21 @@ public interface RegexReplacer extends Replacer {
 
         return getPattern().matcher(str).replaceAll(getReplacement());
     }
+
+    @Override
+    default @NotNull StringBuilder replace(@NotNull StringBuilder builder) {
+        var matcher = getPattern().matcher(builder);
+        var replaced = matcher.replaceAll(getReplacement());
+        builder.setLength(0);
+        return builder.append(replaced);
+    }
+
+    @Override
+    @NotNull
+    default StringBuffer replace(@NotNull StringBuffer buffer) {
+        var matcher = getPattern().matcher(buffer);
+        var replaced = matcher.replaceAll(getReplacement());
+        buffer.setLength(0);
+        return buffer.append(replaced);
+    }
 }

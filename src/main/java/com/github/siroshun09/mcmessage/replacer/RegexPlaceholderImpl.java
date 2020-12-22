@@ -42,7 +42,7 @@ class RegexPlaceholderImpl implements RegexPlaceholder {
 
         if (o instanceof RegexPlaceholderImpl) {
             RegexPlaceholderImpl that = (RegexPlaceholderImpl) o;
-            return getPattern().equals(that.getPattern());
+            return getPattern().pattern().equals(that.getPattern().pattern());
         } else {
             return false;
         }

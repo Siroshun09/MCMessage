@@ -61,14 +61,7 @@ public class PlainTextBuilder implements Builder<Message> {
 
     @NotNull
     public PlainTextBuilder replace(@NotNull Replacer replacer) {
-        int length = replacer.getPlaceholder().length();
-        int startIndex = builder.indexOf(replacer.getPlaceholder());
-
-        while (-1 < startIndex) {
-            builder.replace(startIndex, startIndex + length, replacer.getReplacement());
-            startIndex = builder.indexOf(replacer.getPlaceholder(), startIndex + 1);
-        }
-
+        replacer.replace(builder);
         return this;
     }
 

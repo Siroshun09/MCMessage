@@ -51,16 +51,16 @@ public interface Replacer extends Placeholder {
         return builder;
     }
 
-    default @NotNull StringBuffer replace(@NotNull StringBuffer builder) {
+    default @NotNull StringBuffer replace(@NotNull StringBuffer buffer) {
         int length = getPlaceholder().length();
-        int startIndex = builder.indexOf(getPlaceholder());
+        int startIndex = buffer.indexOf(getPlaceholder());
 
         while (-1 < startIndex) {
-            builder.replace(startIndex, startIndex + length, getReplacement());
-            startIndex = builder.indexOf(getPlaceholder(), startIndex + 1);
+            buffer.replace(startIndex, startIndex + length, getReplacement());
+            startIndex = buffer.indexOf(getPlaceholder(), startIndex + 1);
         }
 
-        return builder;
+        return buffer;
     }
 
     default @NotNull TextReplacementConfig toTextReplacementConfig() {

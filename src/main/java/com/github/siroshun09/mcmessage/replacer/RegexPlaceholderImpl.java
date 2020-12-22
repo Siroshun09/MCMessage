@@ -50,7 +50,7 @@ class RegexPlaceholderImpl implements RegexPlaceholder {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPattern());
+        return Objects.hash(getPattern().pattern());
     }
 
     @Override

@@ -50,6 +50,10 @@ class PropertiesFileLoader implements LanguageLoader {
 
     @Override
     public @NotNull @Unmodifiable Set<InvalidMessage> load() throws IOException {
+        if (!Files.exists(filePath)) {
+            return Collections.emptySet();
+        }
+
         Set<InvalidMessage> invalidMessages = new HashSet<>();
 
         try (BufferedReader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {

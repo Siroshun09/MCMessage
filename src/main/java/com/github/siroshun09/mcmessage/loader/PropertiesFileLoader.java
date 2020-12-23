@@ -25,10 +25,12 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -85,6 +87,38 @@ class PropertiesFileLoader implements LanguageLoader {
         }
 
         return Collections.unmodifiableSet(invalidMessages);
+    }
+
+    @Override
+    public void save(@NotNull Iterable<? extends KeyedMessage> keyedMessages) throws IOException {
+        Objects.requireNonNull(keyedMessages);
+
+        if (!Files.exists(filePath)) {
+            Files.createDirectories(filePath.getParent());
+            Files.createFile(filePath);
+        }
+
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
+            StringBuilder builder = new StringBuilder();
+
+            for (KeyedMessage msg : keyedMessages) {
+                builder.setLength(0);
+                builder.append(msg.getKey()).append('=').append(msg.get());
+                writer.write(builder.toString());
+                writer.newLine();
+            }
+        }
+    }
+
+    @Override
+    public @NotNull @Unmodifiable Set<InvalidMessage> loadOrSaveDefault(@NotNull Iterable<? extends KeyedMessage> keyedMessages) throws IOException {
+        if (Files.exists(filePath)) {
+            return load();
+        } else {
+            save(keyedMessages);
+            keyedMessages.forEach(m -> messages.put(m.getKey(), m));
+            return Collections.emptySet();
+        }
     }
 
     @Override

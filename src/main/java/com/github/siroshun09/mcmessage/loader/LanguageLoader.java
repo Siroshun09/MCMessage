@@ -17,6 +17,7 @@
 package com.github.siroshun09.mcmessage.loader;
 
 import com.github.siroshun09.mcmessage.MessageHoldable;
+import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.translation.Translation;
 import com.github.siroshun09.mcmessage.util.InvalidMessage;
 import org.jetbrains.annotations.Contract;
@@ -45,6 +46,10 @@ public interface LanguageLoader extends MessageHoldable {
     }
 
     @NotNull @Unmodifiable Set<InvalidMessage> load() throws IOException;
+
+    void save(@NotNull Iterable<? extends KeyedMessage> keyedMessages) throws IOException;
+
+    @NotNull @Unmodifiable Set<InvalidMessage> loadOrSaveDefault(@NotNull Iterable<? extends KeyedMessage> keyedMessages) throws IOException;
 
     @NotNull FileType getFileType();
 

@@ -38,7 +38,7 @@ public interface RegexReplacer extends Replacer {
 
     @Override
     default @NotNull String getPlaceholder() {
-        return getPattern().toString();
+        return getPattern().pattern();
     }
 
     @Override

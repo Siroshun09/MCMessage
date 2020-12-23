@@ -84,6 +84,11 @@ class PropertiesFileLoader implements LanguageLoader {
     }
 
     @Override
+    public @NotNull FileType getFileType() {
+        return FileType.PROPERTIES;
+    }
+
+    @Override
     public @Nullable Message getMessage(@NotNull String key) {
         Objects.requireNonNull(key);
         return messages.get(key);

@@ -44,11 +44,6 @@ public interface LanguageLoader extends MessageHoldable {
         }
     }
 
-    @Contract(pure = true)
-    static @NotNull String getPropertiesFileExtension() {
-        return ".properties";
-    }
-
     @NotNull @Unmodifiable Set<InvalidMessage> load() throws IOException;
 
     @NotNull FileType getFileType();

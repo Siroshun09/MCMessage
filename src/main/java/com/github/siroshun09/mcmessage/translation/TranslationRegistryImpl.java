@@ -16,7 +16,7 @@
 
 package com.github.siroshun09.mcmessage.translation;
 
-import com.github.siroshun09.mcmessage.message.Message;
+import com.github.siroshun09.mcmessage.message.TranslatedMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -78,7 +78,7 @@ class TranslationRegistryImpl implements TranslationRegistry {
     }
 
     @Override
-    public @Nullable Message getMessage(@NotNull String key, @NotNull Locale locale) {
+    public @Nullable TranslatedMessage getMessage(@NotNull String key, @NotNull Locale locale) {
         Translation translation = translations.get(locale);
         return translation != null ? translation.getMessage(key) : null;
     }

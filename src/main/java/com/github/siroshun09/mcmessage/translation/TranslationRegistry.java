@@ -17,7 +17,7 @@
 package com.github.siroshun09.mcmessage.translation;
 
 import com.github.siroshun09.mcmessage.message.DefaultMessage;
-import com.github.siroshun09.mcmessage.message.Message;
+import com.github.siroshun09.mcmessage.message.TranslatedMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,14 +42,14 @@ public interface TranslationRegistry {
 
     @NotNull Collection<Translation> getTranslations();
 
-    @Nullable Message getMessage(@NotNull String key, @NotNull Locale locale);
+    @Nullable TranslatedMessage getMessage(@NotNull String key, @NotNull Locale locale);
 
-    default @NotNull Message getMessage(@NotNull DefaultMessage def, @NotNull Locale locale) {
+    default @NotNull TranslatedMessage getMessage(@NotNull DefaultMessage def, @NotNull Locale locale) {
         return getMessage(def.getKey(), def.getDefault(), locale);
     }
 
-    default @NotNull Message getMessage(@NotNull String key, @NotNull String def, @NotNull Locale locale) {
-        Message message = getMessage(key, locale);
-        return message != null ? message : Message.of(def);
+    default @NotNull TranslatedMessage getMessage(@NotNull String key, @NotNull String def, @NotNull Locale locale) {
+        var message = getMessage(key, locale);
+        return message != null ? message : TranslatedMessage.of(def, locale);
     }
 }

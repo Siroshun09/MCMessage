@@ -28,26 +28,27 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class TranslationImpl implements Translation {
 
     private final Locale locale;
     private final Map<String, TranslatedMessage> messages;
 
-    TranslationImpl(@NotNull Locale locale, @NotNull Set<KeyedMessage> messages) {
+    TranslationImpl(@NotNull Locale locale, @NotNull Iterable<? extends KeyedMessage> messages) {
         Objects.requireNonNull(locale);
         Objects.requireNonNull(messages);
 
         this.locale = locale;
         this.messages =
-                messages.stream()
+                StreamSupport.stream(messages.spliterator(), false)
                         .collect(Collectors.toMap(
                                 KeyedMessage::getKey,
                                 m -> TranslatedMessage.of(m, locale))
                         );
     }
 
-    TranslationImpl(@NotNull Locale locale, @NotNull Map<String, Message> messages) {
+    TranslationImpl(@NotNull Locale locale, @NotNull Map<String, ? extends Message> messages) {
         Objects.requireNonNull(locale);
         Objects.requireNonNull(messages);
 

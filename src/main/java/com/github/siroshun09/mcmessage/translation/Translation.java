@@ -27,15 +27,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public interface Translation extends MessageHoldable {
 
-    static @NotNull Translation of(@NotNull Locale locale, @NotNull Set<KeyedMessage> messages) {
+    static @NotNull Translation of(@NotNull Locale locale, @NotNull Iterable<? extends KeyedMessage> messages) {
         return new TranslationImpl(locale, messages);
     }
 
-    static @NotNull Translation of(@NotNull Locale locale, @NotNull Map<String, Message> messages) {
+    static @NotNull Translation of(@NotNull Locale locale, @NotNull Map<String, ? extends Message> messages) {
         return new TranslationImpl(locale, messages);
     }
 

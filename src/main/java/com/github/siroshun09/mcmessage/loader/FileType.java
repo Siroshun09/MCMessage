@@ -19,10 +19,10 @@ package com.github.siroshun09.mcmessage.loader;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 public enum FileType {
-    PROPERTIES(".properties")
-    ;
+    PROPERTIES(".properties");
 
     private final String extension;
 
@@ -40,5 +40,15 @@ public enum FileType {
 
     public boolean match(@NotNull String path) {
         return path.endsWith(extension);
+    }
+
+    public @NotNull LanguageLoader createLoader(@NotNull Path path) {
+        Objects.requireNonNull(path);
+
+        if (this == FileType.PROPERTIES) {
+            return LanguageLoader.fromPropertiesFile(path);
+        } else {
+            throw new IllegalArgumentException("Could not create the language loader.");
+        }
     }
 }

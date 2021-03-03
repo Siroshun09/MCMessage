@@ -102,22 +102,6 @@ class PropertiesFileLoader extends AbstractLanguageLoader {
     }
 
     @Override
-    public @NotNull @Unmodifiable Set<InvalidMessage> loadOrSaveDefault(@NotNull Iterable<? extends KeyedMessage> keyedMessages) throws IOException {
-        if (Files.exists(getFilePath())) {
-            return load();
-        } else {
-            save(keyedMessages);
-            keyedMessages.forEach(m -> getMessageMap().put(m.getKey(), m));
-            return Collections.emptySet();
-        }
-    }
-
-    @Override
-    public @NotNull FileType getFileType() {
-        return FileType.PROPERTIES;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

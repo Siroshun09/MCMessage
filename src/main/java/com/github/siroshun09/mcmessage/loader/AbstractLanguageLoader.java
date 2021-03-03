@@ -19,11 +19,15 @@ package com.github.siroshun09.mcmessage.loader;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.Message;
 import com.github.siroshun09.mcmessage.translation.Translation;
+import com.github.siroshun09.mcmessage.util.InvalidMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,6 +57,18 @@ abstract class AbstractLanguageLoader implements LanguageLoader {
                 .map(entry -> KeyedMessage.of(entry.getKey(), entry.getValue().get()))
                 .collect(Collectors.toUnmodifiableSet());
     }
+
+    @Override
+    public @NotNull @Unmodifiable Set<InvalidMessage> loadOrSaveDefault(@NotNull Iterable<? extends KeyedMessage> keyedMessages) throws IOException {
+        if (Files.exists(getFilePath())) {
+            return load();
+        } else {
+            save(keyedMessages);
+            keyedMessages.forEach(m -> messageMap.put(m.getKey(), m));
+            return Collections.emptySet();
+        }
+    }
+
 
     @Override
     public @NotNull Translation toTranslation(@NotNull Locale locale) {

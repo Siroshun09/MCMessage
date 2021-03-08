@@ -81,7 +81,7 @@
         <dependency>
             <groupId>com.github.siroshun09.configapi</groupId>
             <artifactId>common</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+            <version>3.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

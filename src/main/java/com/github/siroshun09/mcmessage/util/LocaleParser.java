@@ -26,7 +26,7 @@ public final class LocaleParser {
         throw new UnsupportedOperationException();
     }
 
-    public static @Nullable Locale parseLocale(String str) {
+    public static @Nullable Locale parse(String str) {
         if (str == null || str.isEmpty()) {
             return null;
         }

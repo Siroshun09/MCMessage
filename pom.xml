@@ -163,12 +163,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <finalName>${project.name}-${project.version}</finalName>
                     <archive combine.children="append">
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
                         <manifestEntries>
                             <Automatic-Module-Name>${project.groupId}</Automatic-Module-Name>
                         </manifestEntries>

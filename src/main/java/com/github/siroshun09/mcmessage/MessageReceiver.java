@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -19,22 +19,48 @@ package com.github.siroshun09.mcmessage;
 import com.github.siroshun09.mcmessage.message.Message;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
 public interface MessageReceiver {
 
+    @NotNull Audience getAudience();
+
     @NotNull Locale getLocale();
 
-    void sendMessage(@NotNull String str);
-
-    default @NotNull Audience getAudience() {
-        return Audience.empty();
+    default void sendMessage(@NotNull String message) {
+        if (message.isEmpty()) {
+            sendMessage(Component.empty());
+        } else {
+            sendMessage(Component.text(message));
+        }
     }
 
-    default void sendMessage(@NotNull Message Message) {
-        sendMessage(Message.get());
+    default void sendColorizedMessage(@NotNull String message) {
+        sendColorizedMessage(message, false);
+    }
+
+    default void sendColorizedMessage(@NotNull String message, boolean section) {
+        if (message.isEmpty()) {
+            sendMessage(Component.empty());
+            return;
+        }
+
+        Component colorized;
+
+        if (section) {
+            colorized = LegacyComponentSerializer.legacySection().deserialize(message);
+        } else {
+            colorized = LegacyComponentSerializer.legacyAmpersand().deserialize(message);
+        }
+
+        sendMessage(colorized);
+    }
+
+    default void sendMessage(@NotNull Message message) {
+        sendMessage(message.toTextComponent());
     }
 
     default void sendMessage(@NotNull Component component) {

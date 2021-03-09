@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 
 package com.github.siroshun09.mcmessage;
 
-import com.github.siroshun09.mcmessage.builder.PlainTextBuilder;
-import com.github.siroshun09.mcmessage.message.DefaultMessage;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.Message;
 import org.jetbrains.annotations.NotNull;
@@ -33,28 +31,13 @@ public interface MessageHoldable {
 
     default @NotNull Message getMessage(@NotNull String key, @NotNull String def) {
         Message message = getMessage(key);
-        return message != null ? message : Message.of(def);
+        return message != null ? message : Message.create(def);
     }
 
-    default @NotNull Message getMessage(@NotNull DefaultMessage defaultMessage) {
-        Objects.requireNonNull(defaultMessage);
-        return getMessage(defaultMessage.getKey(), defaultMessage.getDefault());
+    default @NotNull Message getMessage(@NotNull KeyedMessage keyedMessage) {
+        Objects.requireNonNull(keyedMessage);
+        return getMessage(keyedMessage.getKey(), keyedMessage.getMessage());
     }
 
-    @NotNull @Unmodifiable Set<KeyedMessage> getMessages();
-
-    default @Nullable PlainTextBuilder newPlainTextBuilder(@NotNull String key) {
-        Message message = getMessage(key);
-        return message != null ? new PlainTextBuilder(message) : null;
-    }
-
-    default @NotNull PlainTextBuilder newPlainTextBuilder(@NotNull String key, @NotNull String def) {
-        PlainTextBuilder builder = newPlainTextBuilder(key);
-        return builder != null ? builder : new PlainTextBuilder(Message.of(def));
-    }
-
-    default @NotNull PlainTextBuilder newPlainTextBuilder(@NotNull DefaultMessage defaultMessage) {
-        Objects.requireNonNull(defaultMessage);
-        return newPlainTextBuilder(defaultMessage.getKey(), defaultMessage.getDefault());
-    }
+    @NotNull @Unmodifiable Set<? extends KeyedMessage> getMessages();
 }

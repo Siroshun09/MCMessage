@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -16,49 +16,38 @@
 
 package com.github.siroshun09.mcmessage.translation;
 
-import com.github.siroshun09.mcmessage.MessageHoldable;
-import com.github.siroshun09.mcmessage.message.DefaultMessage;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
-import com.github.siroshun09.mcmessage.message.Message;
 import com.github.siroshun09.mcmessage.message.TranslatedMessage;
+import com.github.siroshun09.mcmessage.MessageHoldable;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public interface Translation extends MessageHoldable {
 
-    static @NotNull Translation of(@NotNull Locale locale, @NotNull Iterable<? extends KeyedMessage> messages) {
-        return new TranslationImpl(locale, messages);
+    @Contract(value = "_, _ -> new", pure = true)
+    static @NotNull Translation create(@NotNull Map<String, TranslatedMessage> messageMap, @NotNull Locale locale) {
+        return new TranslationImpl(messageMap, locale);
     }
 
-    static @NotNull Translation of(@NotNull Locale locale, @NotNull Map<String, ? extends Message> messages) {
-        return new TranslationImpl(locale, messages);
-    }
-
-    static @Nullable Locale parseLocale(String str) {
-        if (str == null || str.isEmpty()) {
-            return null;
-        }
-
-        String[] segments = str.split("_", 3);
-        int length = segments.length;
-
-        if (length == 1) {
-            return new Locale(str); // language
-        }
-
-        if (length == 2) {
-            return new Locale(segments[0], segments[1]); // language + country
-        }
-
-        if (length == 3) {
-            return new Locale(segments[0], segments[1], segments[2]); // language + country + variant
-        }
-
-        return null;
+    @Contract("_, _ -> new")
+    static @NotNull Translation create(@NotNull Set<TranslatedMessage> messageSet, @NotNull Locale locale) {
+        return new TranslationImpl(
+                messageSet.stream().collect(
+                        Collectors.toUnmodifiableMap(
+                                TranslatedMessage::getKey,
+                                t -> t
+                        )
+                ),
+                locale
+        );
     }
 
     @Override
@@ -67,14 +56,17 @@ public interface Translation extends MessageHoldable {
     @Override
     default @NotNull TranslatedMessage getMessage(@NotNull String key, @NotNull String def) {
         var message = getMessage(key);
-        return message != null ? message : TranslatedMessage.of(def, getLocale());
+        return message != null ? message : TranslatedMessage.create(key, def, getLocale());
     }
 
     @Override
-    default @NotNull TranslatedMessage getMessage(@NotNull DefaultMessage defaultMessage) {
-        Objects.requireNonNull(defaultMessage);
-        return getMessage(defaultMessage.getKey(), defaultMessage.getDefault());
+    default @NotNull TranslatedMessage getMessage(@NotNull KeyedMessage keyedMessage) {
+        Objects.requireNonNull(keyedMessage);
+        return getMessage(keyedMessage.getKey(), keyedMessage.getMessage());
     }
+
+    @Override
+    @NotNull @Unmodifiable Set<TranslatedMessage> getMessages();
 
     @NotNull Locale getLocale();
 }

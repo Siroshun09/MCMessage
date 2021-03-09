@@ -16,76 +16,95 @@
 
 package com.github.siroshun09.mcmessage.loader;
 
+import com.github.siroshun09.mcmessage.util.LocaleParser;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.Message;
+import com.github.siroshun09.mcmessage.message.TranslatedMessage;
 import com.github.siroshun09.mcmessage.translation.Translation;
-import com.github.siroshun09.mcmessage.util.InvalidMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-abstract class AbstractLanguageLoader implements LanguageLoader {
+public abstract class AbstractMessageLoader implements MessageLoader {
 
     private final Path path;
     private final Map<String, Message> messageMap;
 
-    protected AbstractLanguageLoader(@NotNull Path path) {
+    protected AbstractMessageLoader(Path path) {
         this.path = path;
-        this.messageMap = new HashMap<>();
+        messageMap = new HashMap<>();
+    }
+
+    @Override
+    public boolean existsFile() {
+        return Files.isRegularFile(path);
     }
 
     @Override
     public @Nullable Message getMessage(@NotNull String key) {
-        Objects.requireNonNull(key);
         return messageMap.get(key);
     }
 
     @Override
     public @NotNull @Unmodifiable Set<KeyedMessage> getMessages() {
-        return messageMap.entrySet().stream()
-                .map(entry -> KeyedMessage.of(entry.getKey(), entry.getValue().get()))
+        return messageMap.entrySet()
+                .stream()
+                .map(e -> KeyedMessage.create(e.getKey(), e.getValue().getMessage()))
                 .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override
-    public @NotNull @Unmodifiable Set<InvalidMessage> loadOrSaveDefault(@NotNull Iterable<? extends KeyedMessage> keyedMessages) throws IOException {
-        if (Files.exists(getFilePath())) {
-            return load();
-        } else {
-            save(keyedMessages);
-            keyedMessages.forEach(m -> messageMap.put(m.getKey(), m));
-            return Collections.emptySet();
-        }
-    }
+    public @Nullable Translation toTranslation() {
+        var locale = parseLocaleFromFileName();
 
+        return locale != null ? toTranslation(locale) : null;
+    }
 
     @Override
     public @NotNull Translation toTranslation(@NotNull Locale locale) {
-        return Translation.of(locale, messageMap);
+        return Translation.create(
+                getMessageMap().entrySet()
+                        .stream()
+                        .map(e -> TranslatedMessage.create(e.getKey(), e.getValue().getMessage(), locale))
+                        .collect(Collectors.toUnmodifiableMap(KeyedMessage::getKey, t -> t)),
+                locale
+        );
     }
 
-    @Override
-    public @Nullable Locale parseLocaleFromFileName() {
-        String fileName = getFilePath().getFileName().toString();
-        return Translation.parseLocale(fileName.substring(0, fileName.length() - 11)); // .properties
-    }
-
-    protected @NotNull Path getFilePath() {
+    protected @NotNull Path getPath() {
         return path;
     }
 
     protected @NotNull Map<String, Message> getMessageMap() {
         return messageMap;
+    }
+
+    private @Nullable Locale parseLocaleFromFileName() {
+        var filePath = path.getFileName();
+
+        if (filePath == null) {
+            return null;
+        }
+
+        var fileName = filePath.toString().toCharArray();
+        var builder = new StringBuilder();
+
+        for (var c : fileName) {
+            if (c != '.') {
+                builder.append(c);
+            } else {
+                break;
+            }
+        }
+
+        return LocaleParser.parse(builder.toString());
     }
 }

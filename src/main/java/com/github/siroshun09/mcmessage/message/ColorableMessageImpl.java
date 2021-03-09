@@ -16,27 +16,19 @@
 
 package com.github.siroshun09.mcmessage.message;
 
+import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
 import java.util.Objects;
 
-class TranslatedMessageImpl implements TranslatedMessage {
+class ColorableMessageImpl implements ColorableMessage {
 
-    private final String key;
     private final String message;
-    private final Locale locale;
+    private final TextColor color;
 
-    TranslatedMessageImpl(@NotNull String key, @NotNull String message,
-                          @NotNull Locale locale) {
-        this.key = Objects.requireNonNull(key);
+    ColorableMessageImpl(@NotNull String message, @NotNull TextColor color) {
         this.message = Objects.requireNonNull(message);
-        this.locale = Objects.requireNonNull(locale);
-    }
-
-    @Override
-    public @NotNull String getKey() {
-        return key;
+        this.color = Objects.requireNonNull(color);
     }
 
     @Override
@@ -45,29 +37,28 @@ class TranslatedMessageImpl implements TranslatedMessage {
     }
 
     @Override
-    public @NotNull Locale getLocale() {
-        return locale;
+    public @NotNull TextColor getColor() {
+        return color;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TranslatedMessageImpl that = (TranslatedMessageImpl) o;
-        return key.equals(that.key) && message.equals(that.message) && locale.equals(that.locale);
+        ColorableMessageImpl that = (ColorableMessageImpl) o;
+        return message.equals(that.message) && color.equals(that.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key, message, locale);
+        return Objects.hash(message, color);
     }
 
     @Override
     public String toString() {
-        return "TranslatedMessageImpl{" +
-                "key='" + key + '\'' +
-                ", message='" + message + '\'' +
-                ", locale=" + locale +
+        return "ColorableMessageImpl{" +
+                "message='" + message + '\'' +
+                ", color=" + color +
                 '}';
     }
 }

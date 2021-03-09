@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@
 
 package com.github.siroshun09.mcmessage.translation;
 
-import com.github.siroshun09.mcmessage.message.DefaultMessage;
+import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.TranslatedMessage;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +27,8 @@ import java.util.Locale;
 
 public interface TranslationRegistry {
 
-    static TranslationRegistry create() {
+    @Contract(" -> new")
+    static @NotNull TranslationRegistry create() {
         return new TranslationRegistryImpl();
     }
 
@@ -44,12 +46,12 @@ public interface TranslationRegistry {
 
     @Nullable TranslatedMessage getMessage(@NotNull String key, @NotNull Locale locale);
 
-    default @NotNull TranslatedMessage getMessage(@NotNull DefaultMessage def, @NotNull Locale locale) {
-        return getMessage(def.getKey(), def.getDefault(), locale);
+    default @NotNull TranslatedMessage getMessage(@NotNull KeyedMessage def, @NotNull Locale locale) {
+        return getMessage(def.getKey(), def.getMessage(), locale);
     }
 
     default @NotNull TranslatedMessage getMessage(@NotNull String key, @NotNull String def, @NotNull Locale locale) {
         var message = getMessage(key, locale);
-        return message != null ? message : TranslatedMessage.of(def, locale);
+        return message != null ? message : TranslatedMessage.create(key, def, locale);
     }
 }

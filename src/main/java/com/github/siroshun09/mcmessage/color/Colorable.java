@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -14,29 +14,17 @@
  *     limitations under the License.
  */
 
-package com.github.siroshun09.mcmessage.message;
+package com.github.siroshun09.mcmessage.color;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+public interface Colorable {
 
-class DefaultMessageImpl implements DefaultMessage {
+    @NotNull TextColor getColor();
 
-    private final String key;
-    private final String def;
-
-    DefaultMessageImpl(@NotNull String key, @NotNull String def) {
-        this.key = Objects.requireNonNull(key);
-        this.def = Objects.requireNonNull(def);
-    }
-
-    @Override
-    public @NotNull String getKey() {
-        return key;
-    }
-
-    @Override
-    public @NotNull String get() {
-        return def;
+    default Component colorize(@NotNull Component component) {
+        return component.color(getColor());
     }
 }

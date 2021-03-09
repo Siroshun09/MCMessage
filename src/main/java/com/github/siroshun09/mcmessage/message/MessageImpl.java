@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -25,25 +25,20 @@ class MessageImpl implements Message {
     private final String message;
 
     MessageImpl(@NotNull String message) {
-        this.message = message;
+        this.message = Objects.requireNonNull(message);
     }
 
     @Override
-    public @NotNull String get() {
+    public @NotNull String getMessage() {
         return message;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o instanceof Message) {
-            return ((Message) o).get().equals(message);
-        } else {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MessageImpl message1 = (MessageImpl) o;
+        return message.equals(message1.message);
     }
 
     @Override

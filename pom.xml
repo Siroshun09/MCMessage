@@ -41,7 +41,6 @@
         </developer>
     </developers>
 
-
     <scm>
         <connection>scm:git:https://github.com/Siroshun09/MCMessage.git</connection>
         <developerConnection>scm:git@github.com:Siroshun09/MCMessage.git</developerConnection>

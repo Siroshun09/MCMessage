@@ -1,7 +1,8 @@
-[![Latest Version](https://img.shields.io/bintray/v/siroshun09/maven/MCMessage?label=Latest)](https://bintray.com/siroshun09/maven/MCMessage/_latestVersion)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Siroshun09/MCMessage/Java%20CI?label=Build)
-![GitHub](https://img.shields.io/github/license/Siroshun09/MCMessage?label=License)
-[![Bintray](https://img.shields.io/bintray/v/siroshun09/maven/MCMessage?color=orange&label=Javadoc)](https://siroshun09.github.io/mcmessage/)
+![Maven Central](https://img.shields.io/maven-central/v/com.github.siroshun09.mcmessage/mcmessage)
+![Maven Central](https://img.shields.io/nexus/s/com.github.siroshun09.mcmessage/mcmessage?label=snapshot&server=https%3A%2F%2Foss.sonatype.org)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Siroshun09/MCMessage/Java%20CI)
+![GitHub](https://img.shields.io/github/license/Siroshun09/MCMessage)
+[![Javadoc](https://img.shields.io/badge/javadoc-page-orange)](https://siroshun09.github.io/MCMessage/)
 
 # MCMessage
 
@@ -10,31 +11,18 @@
 #### For Maven:
 
 ```xml
-    <repository>
-        <id>jcenter</id>
-        <url>https://jcenter.bintray.com</url>
-    </repository>
-```
-
-```xml
-    <dependency>
-        <groupId>com.github.siroshun09.mcmessage</groupId>
-        <artifactId>mcmessage</artifactId>
-        <version>1.0.0</version>
-    </dependency>
+<dependency>
+    <groupId>com.github.siroshun09.mcmessage</groupId>
+    <artifactId>mcmessage</artifactId>
+    <version>2.0.0</version>
+</dependency>
 ```
 
 #### For Gradle:
 
 ```
-    repositories {
-        jcenter()
-    }
-```
-
-```
     dependencies {
-        compile 'com.github.siroshun09.mcmessage:mcmessage:1.0.0'
+        compile 'com.github.siroshun09.mcmessage:mcmessage:2.0.0'
     }
 ```
 
@@ -46,4 +34,4 @@ Javadoc: https://siroshun09.github.io/mcmessage/
 
 This project is under the Apache License 2.0 license. Please see [LICENSE](LICENSE) for more info.
 
-Copyright © 2020, Siroshun09
+Copyright © 2021, Siroshun09

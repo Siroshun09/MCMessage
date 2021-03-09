@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -14,31 +14,22 @@
  *     limitations under the License.
  */
 
-package com.github.siroshun09.mcmessage.loader;
+package com.github.siroshun09.mcmessage.message;
 
+import com.github.siroshun09.mcmessage.color.Colorable;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.nio.file.Path;
+public interface ColorableMessage extends Message, Colorable {
 
-public enum FileType {
-    PROPERTIES(".properties")
-    ;
-
-    private final String extension;
-
-    FileType(@NotNull String extension) {
-        this.extension = extension;
+    @Contract("_, _ -> new")
+    static @NotNull ColorableMessage create(@NotNull String message, @NotNull TextColor color) {
+        return new ColorableMessageImpl(message, color);
     }
 
-    public @NotNull String getExtension() {
-        return extension;
-    }
-
-    public boolean match(@NotNull Path path) {
-        return match(path.getFileName().toString());
-    }
-
-    public boolean match(@NotNull String path) {
-        return path.endsWith(extension);
+    default @NotNull Component colorize() {
+        return colorize(toTextComponent());
     }
 }

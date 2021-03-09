@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -16,40 +16,27 @@
 
 package com.github.siroshun09.mcmessage.message;
 
-import com.github.siroshun09.mcmessage.builder.PlainTextBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public interface Message {
 
     @Contract("_ -> new")
-    static @NotNull Message of(@NotNull String message) {
-        Objects.requireNonNull(message);
+    static @NotNull Message create(@NotNull String message) {
         return new MessageImpl(message);
     }
 
-    @Contract("_ -> new")
-    static @NotNull Message of(@NotNull Component component) {
-        Objects.requireNonNull(component);
-        return new MessageImpl(LegacyComponentSerializer.legacySection().serialize(component));
-    }
-
-    @NotNull String get();
-
-    default @NotNull PlainTextBuilder toPlainTextBuilder() {
-        return new PlainTextBuilder(this);
-    }
+    @NotNull String getMessage();
 
     default @NotNull TextComponent toTextComponent() {
-        return Component.text(get());
-    }
+        var msg = getMessage();
 
-    default @NotNull TextComponent toColorizedComponent() {
-        return LegacyComponentSerializer.legacySection().deserialize(get());
+        if (msg.isEmpty()) {
+            return Component.empty();
+        } else {
+            return Component.text(msg);
+        }
     }
 }

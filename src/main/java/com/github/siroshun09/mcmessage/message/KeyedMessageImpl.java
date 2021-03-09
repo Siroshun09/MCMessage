@@ -1,5 +1,5 @@
 /*
- *     Copyright 2020 Siroshun09
+ *     Copyright 2021 Siroshun09
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class KeyedMessageImpl implements KeyedMessage {
     }
 
     @Override
-    public @NotNull String get() {
+    public @NotNull String getMessage() {
         return message;
     }
 
@@ -42,16 +42,10 @@ class KeyedMessageImpl implements KeyedMessage {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o instanceof KeyedMessage) {
-            KeyedMessage that = (KeyedMessage) o;
-            return key.equals(that.getKey()) && message.equals(that.get());
-        } else {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        KeyedMessageImpl that = (KeyedMessageImpl) o;
+        return key.equals(that.key) && message.equals(that.message);
     }
 
     @Override

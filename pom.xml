@@ -90,6 +90,12 @@
             <version>20.1.0</version>
         </dependency>
         <dependency>
+            <groupId>com.github.siroshun09.configapi</groupId>
+            <artifactId>yaml</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.7.0</version>

@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -78,6 +79,18 @@ public abstract class AbstractMessageLoader implements MessageLoader {
                         .collect(Collectors.toUnmodifiableMap(KeyedMessage::getKey, t -> t)),
                 locale
         );
+    }
+
+    @Override
+    public @NotNull Map<String, MessageFormat> toMessageFormatMap() {
+        return messageMap.entrySet()
+                .stream()
+                .collect(
+                        Collectors.toUnmodifiableMap(
+                                Map.Entry::getKey,
+                                e -> new MessageFormat(e.getValue())
+                        )
+                );
     }
 
     protected @NotNull Path getPath() {

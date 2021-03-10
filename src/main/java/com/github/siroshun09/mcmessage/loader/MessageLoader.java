@@ -26,7 +26,9 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -49,6 +51,8 @@ public interface MessageLoader extends MessageHoldable {
     @Nullable Translation toTranslation();
 
     @NotNull Translation toTranslation(@NotNull Locale locale);
+
+    @NotNull Map<String, MessageFormat> toMessageFormatMap();
 
     final class DuplicateKeyMessage {
 

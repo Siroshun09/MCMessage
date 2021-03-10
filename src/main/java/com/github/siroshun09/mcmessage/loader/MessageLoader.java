@@ -48,6 +48,8 @@ public interface MessageLoader extends MessageHoldable {
 
     void save(@NotNull Iterable<? extends KeyedMessage> messages) throws IOException;
 
+    @Nullable Locale getLocale();
+
     @Nullable Translation toTranslation();
 
     @NotNull Translation toTranslation(@NotNull Locale locale);

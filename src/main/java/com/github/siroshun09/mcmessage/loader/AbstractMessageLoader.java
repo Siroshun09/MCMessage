@@ -64,6 +64,11 @@ public abstract class AbstractMessageLoader implements MessageLoader {
     }
 
     @Override
+    public @Nullable Locale getLocale() {
+        return parseLocaleFromFileName();
+    }
+
+    @Override
     public @Nullable Translation toTranslation() {
         var locale = parseLocaleFromFileName();
 

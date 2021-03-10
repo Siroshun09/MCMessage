@@ -20,6 +20,7 @@ import com.github.siroshun09.configapi.common.FileConfiguration;
 import com.github.siroshun09.mcmessage.MessageHoldable;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.translation.Translation;
+import net.kyori.adventure.translation.TranslationRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -55,6 +56,17 @@ public interface MessageLoader extends MessageHoldable {
     @NotNull Translation toTranslation(@NotNull Locale locale);
 
     @NotNull Map<String, MessageFormat> toMessageFormatMap();
+
+    default boolean registerToRegistry(@NotNull TranslationRegistry registry) {
+        var locale = getLocale();
+
+        if (locale == null) {
+            return false;
+        }
+
+        registry.registerAll(locale, toMessageFormatMap());
+        return true;
+    }
 
     final class DuplicateKeyMessage {
 

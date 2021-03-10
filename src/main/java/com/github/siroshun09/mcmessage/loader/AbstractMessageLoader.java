@@ -18,8 +18,6 @@ package com.github.siroshun09.mcmessage.loader;
 
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.Message;
-import com.github.siroshun09.mcmessage.message.TranslatedMessage;
-import com.github.siroshun09.mcmessage.translation.Translation;
 import com.github.siroshun09.mcmessage.util.LocaleParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,24 +64,6 @@ public abstract class AbstractMessageLoader implements MessageLoader {
     @Override
     public @Nullable Locale getLocale() {
         return parseLocaleFromFileName();
-    }
-
-    @Override
-    public @Nullable Translation toTranslation() {
-        var locale = parseLocaleFromFileName();
-
-        return locale != null ? toTranslation(locale) : null;
-    }
-
-    @Override
-    public @NotNull Translation toTranslation(@NotNull Locale locale) {
-        return Translation.create(
-                messageMap.entrySet()
-                        .stream()
-                        .map(e -> TranslatedMessage.create(e.getKey(), e.getValue(), locale))
-                        .collect(Collectors.toUnmodifiableMap(KeyedMessage::getKey, t -> t)),
-                locale
-        );
     }
 
     @Override

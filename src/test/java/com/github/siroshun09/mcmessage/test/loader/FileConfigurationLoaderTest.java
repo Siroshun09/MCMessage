@@ -18,13 +18,12 @@ package com.github.siroshun09.mcmessage.test.loader;
 
 import com.github.siroshun09.configapi.yaml.YamlConfiguration;
 import com.github.siroshun09.mcmessage.loader.MessageLoader;
-import com.github.siroshun09.mcmessage.message.TranslatedMessage;
+import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -47,13 +46,12 @@ class FileConfigurationLoaderTest {
         var duplicate = assertDoesNotThrow(loader::load);
         assertTrue(duplicate.isEmpty());
 
-        var translation = loader.toTranslation(Locale.getDefault());
-        assertEquals(getExpected(), translation.getMessages());
+        assertEquals(getExpected(), loader.getMessages());
     }
 
 
-    private @NotNull Set<TranslatedMessage> getExpected() {
-        var set = new HashSet<TranslatedMessage>();
+    private @NotNull Set<KeyedMessage> getExpected() {
+        var set = new HashSet<KeyedMessage>();
 
         set.add(create("message1", "test1"));
         set.add(create("messages.message2", "test2"));
@@ -68,7 +66,7 @@ class FileConfigurationLoaderTest {
         return set;
     }
 
-    private @NotNull TranslatedMessage create(@NotNull String key, @NotNull String msg) {
-        return TranslatedMessage.create(key, msg, Locale.getDefault());
+    private @NotNull KeyedMessage create(@NotNull String key, @NotNull String msg) {
+        return KeyedMessage.create(key, msg);
     }
 }

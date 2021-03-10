@@ -19,7 +19,6 @@ package com.github.siroshun09.mcmessage.loader;
 import com.github.siroshun09.configapi.common.FileConfiguration;
 import com.github.siroshun09.mcmessage.MessageHoldable;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
-import com.github.siroshun09.mcmessage.translation.Translation;
 import net.kyori.adventure.translation.TranslationRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -50,10 +49,6 @@ public interface MessageLoader extends MessageHoldable {
     void save(@NotNull Iterable<? extends KeyedMessage> messages) throws IOException;
 
     @Nullable Locale getLocale();
-
-    @Nullable Translation toTranslation();
-
-    @NotNull Translation toTranslation(@NotNull Locale locale);
 
     @NotNull Map<String, MessageFormat> toMessageFormatMap();
 

@@ -19,7 +19,6 @@ package com.github.siroshun09.mcmessage.loader;
 import com.github.siroshun09.configapi.common.Configuration;
 import com.github.siroshun09.configapi.common.FileConfiguration;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
-import com.github.siroshun09.mcmessage.message.Message;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -76,7 +75,7 @@ class FileConfigurationLoader extends AbstractMessageLoader {
                 if (getMessageMap().containsKey(k)) {
                     duplicate.add(new DuplicateKeyMessage(k, msg));
                 } else {
-                    getMessageMap().put(keyPrefix + key, Message.create(msg));
+                    getMessageMap().put(keyPrefix + key, msg);
                 }
             }
         }

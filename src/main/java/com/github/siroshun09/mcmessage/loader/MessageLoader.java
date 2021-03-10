@@ -19,14 +19,16 @@ package com.github.siroshun09.mcmessage.loader;
 import com.github.siroshun09.configapi.common.FileConfiguration;
 import com.github.siroshun09.mcmessage.MessageHoldable;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
-import com.github.siroshun09.mcmessage.translation.Translation;
+import net.kyori.adventure.translation.TranslationRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -46,9 +48,20 @@ public interface MessageLoader extends MessageHoldable {
 
     void save(@NotNull Iterable<? extends KeyedMessage> messages) throws IOException;
 
-    @Nullable Translation toTranslation();
+    @Nullable Locale getLocale();
 
-    @NotNull Translation toTranslation(@NotNull Locale locale);
+    @NotNull Map<String, MessageFormat> toMessageFormatMap();
+
+    default boolean registerToRegistry(@NotNull TranslationRegistry registry) {
+        var locale = getLocale();
+
+        if (locale == null) {
+            return false;
+        }
+
+        registry.registerAll(locale, toMessageFormatMap());
+        return true;
+    }
 
     final class DuplicateKeyMessage {
 

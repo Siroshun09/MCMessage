@@ -16,17 +16,16 @@
 
 package com.github.siroshun09.mcmessage.loader;
 
-import com.github.siroshun09.mcmessage.util.LocaleParser;
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
 import com.github.siroshun09.mcmessage.message.Message;
-import com.github.siroshun09.mcmessage.message.TranslatedMessage;
-import com.github.siroshun09.mcmessage.translation.Translation;
+import com.github.siroshun09.mcmessage.util.LocaleParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -36,7 +35,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractMessageLoader implements MessageLoader {
 
     private final Path path;
-    private final Map<String, Message> messageMap;
+    private final Map<String, String> messageMap;
 
     protected AbstractMessageLoader(Path path) {
         this.path = path;
@@ -50,40 +49,40 @@ public abstract class AbstractMessageLoader implements MessageLoader {
 
     @Override
     public @Nullable Message getMessage(@NotNull String key) {
-        return messageMap.get(key);
+        var message = messageMap.get(key);
+        return message != null ? Message.create(message) : null;
     }
 
     @Override
     public @NotNull @Unmodifiable Set<KeyedMessage> getMessages() {
         return messageMap.entrySet()
                 .stream()
-                .map(e -> KeyedMessage.create(e.getKey(), e.getValue().getMessage()))
+                .map(e -> KeyedMessage.create(e.getKey(), e.getValue()))
                 .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override
-    public @Nullable Translation toTranslation() {
-        var locale = parseLocaleFromFileName();
-
-        return locale != null ? toTranslation(locale) : null;
+    public @Nullable Locale getLocale() {
+        return parseLocaleFromFileName();
     }
 
     @Override
-    public @NotNull Translation toTranslation(@NotNull Locale locale) {
-        return Translation.create(
-                getMessageMap().entrySet()
-                        .stream()
-                        .map(e -> TranslatedMessage.create(e.getKey(), e.getValue().getMessage(), locale))
-                        .collect(Collectors.toUnmodifiableMap(KeyedMessage::getKey, t -> t)),
-                locale
-        );
+    public @NotNull Map<String, MessageFormat> toMessageFormatMap() {
+        return messageMap.entrySet()
+                .stream()
+                .collect(
+                        Collectors.toUnmodifiableMap(
+                                Map.Entry::getKey,
+                                e -> new MessageFormat(e.getValue())
+                        )
+                );
     }
 
     protected @NotNull Path getPath() {
         return path;
     }
 
-    protected @NotNull Map<String, Message> getMessageMap() {
+    protected @NotNull Map<String, String> getMessageMap() {
         return messageMap;
     }
 

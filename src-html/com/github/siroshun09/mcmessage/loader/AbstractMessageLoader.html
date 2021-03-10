@@ -25,98 +25,97 @@
 <span class="sourceLineNo">016</span><a id="line.16"></a>
 <span class="sourceLineNo">017</span><a id="line.17">package com.github.siroshun09.mcmessage.loader;</a>
 <span class="sourceLineNo">018</span><a id="line.18"></a>
-<span class="sourceLineNo">019</span><a id="line.19">import com.github.siroshun09.mcmessage.util.LocaleParser;</a>
-<span class="sourceLineNo">020</span><a id="line.20">import com.github.siroshun09.mcmessage.message.KeyedMessage;</a>
-<span class="sourceLineNo">021</span><a id="line.21">import com.github.siroshun09.mcmessage.message.Message;</a>
-<span class="sourceLineNo">022</span><a id="line.22">import com.github.siroshun09.mcmessage.message.TranslatedMessage;</a>
-<span class="sourceLineNo">023</span><a id="line.23">import com.github.siroshun09.mcmessage.translation.Translation;</a>
-<span class="sourceLineNo">024</span><a id="line.24">import org.jetbrains.annotations.NotNull;</a>
-<span class="sourceLineNo">025</span><a id="line.25">import org.jetbrains.annotations.Nullable;</a>
-<span class="sourceLineNo">026</span><a id="line.26">import org.jetbrains.annotations.Unmodifiable;</a>
-<span class="sourceLineNo">027</span><a id="line.27"></a>
-<span class="sourceLineNo">028</span><a id="line.28">import java.nio.file.Files;</a>
-<span class="sourceLineNo">029</span><a id="line.29">import java.nio.file.Path;</a>
-<span class="sourceLineNo">030</span><a id="line.30">import java.util.HashMap;</a>
-<span class="sourceLineNo">031</span><a id="line.31">import java.util.Locale;</a>
-<span class="sourceLineNo">032</span><a id="line.32">import java.util.Map;</a>
-<span class="sourceLineNo">033</span><a id="line.33">import java.util.Set;</a>
-<span class="sourceLineNo">034</span><a id="line.34">import java.util.stream.Collectors;</a>
-<span class="sourceLineNo">035</span><a id="line.35"></a>
-<span class="sourceLineNo">036</span><a id="line.36">public abstract class AbstractMessageLoader implements MessageLoader {</a>
-<span class="sourceLineNo">037</span><a id="line.37"></a>
-<span class="sourceLineNo">038</span><a id="line.38">    private final Path path;</a>
-<span class="sourceLineNo">039</span><a id="line.39">    private final Map&lt;String, Message&gt; messageMap;</a>
-<span class="sourceLineNo">040</span><a id="line.40"></a>
-<span class="sourceLineNo">041</span><a id="line.41">    protected AbstractMessageLoader(Path path) {</a>
-<span class="sourceLineNo">042</span><a id="line.42">        this.path = path;</a>
-<span class="sourceLineNo">043</span><a id="line.43">        messageMap = new HashMap&lt;&gt;();</a>
-<span class="sourceLineNo">044</span><a id="line.44">    }</a>
-<span class="sourceLineNo">045</span><a id="line.45"></a>
-<span class="sourceLineNo">046</span><a id="line.46">    @Override</a>
-<span class="sourceLineNo">047</span><a id="line.47">    public boolean existsFile() {</a>
-<span class="sourceLineNo">048</span><a id="line.48">        return Files.isRegularFile(path);</a>
-<span class="sourceLineNo">049</span><a id="line.49">    }</a>
-<span class="sourceLineNo">050</span><a id="line.50"></a>
-<span class="sourceLineNo">051</span><a id="line.51">    @Override</a>
-<span class="sourceLineNo">052</span><a id="line.52">    public @Nullable Message getMessage(@NotNull String key) {</a>
-<span class="sourceLineNo">053</span><a id="line.53">        return messageMap.get(key);</a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.github.siroshun09.mcmessage.message.KeyedMessage;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.github.siroshun09.mcmessage.message.Message;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.github.siroshun09.mcmessage.util.LocaleParser;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.jetbrains.annotations.NotNull;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.jetbrains.annotations.Nullable;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.jetbrains.annotations.Unmodifiable;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.nio.file.Files;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.nio.file.Path;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.text.MessageFormat;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.util.HashMap;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.util.Locale;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.Map;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.Set;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.stream.Collectors;</a>
+<span class="sourceLineNo">034</span><a id="line.34"></a>
+<span class="sourceLineNo">035</span><a id="line.35">public abstract class AbstractMessageLoader implements MessageLoader {</a>
+<span class="sourceLineNo">036</span><a id="line.36"></a>
+<span class="sourceLineNo">037</span><a id="line.37">    private final Path path;</a>
+<span class="sourceLineNo">038</span><a id="line.38">    private final Map&lt;String, String&gt; messageMap;</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">    protected AbstractMessageLoader(Path path) {</a>
+<span class="sourceLineNo">041</span><a id="line.41">        this.path = path;</a>
+<span class="sourceLineNo">042</span><a id="line.42">        messageMap = new HashMap&lt;&gt;();</a>
+<span class="sourceLineNo">043</span><a id="line.43">    }</a>
+<span class="sourceLineNo">044</span><a id="line.44"></a>
+<span class="sourceLineNo">045</span><a id="line.45">    @Override</a>
+<span class="sourceLineNo">046</span><a id="line.46">    public boolean existsFile() {</a>
+<span class="sourceLineNo">047</span><a id="line.47">        return Files.isRegularFile(path);</a>
+<span class="sourceLineNo">048</span><a id="line.48">    }</a>
+<span class="sourceLineNo">049</span><a id="line.49"></a>
+<span class="sourceLineNo">050</span><a id="line.50">    @Override</a>
+<span class="sourceLineNo">051</span><a id="line.51">    public @Nullable Message getMessage(@NotNull String key) {</a>
+<span class="sourceLineNo">052</span><a id="line.52">        var message = messageMap.get(key);</a>
+<span class="sourceLineNo">053</span><a id="line.53">        return message != null ? Message.create(message) : null;</a>
 <span class="sourceLineNo">054</span><a id="line.54">    }</a>
 <span class="sourceLineNo">055</span><a id="line.55"></a>
 <span class="sourceLineNo">056</span><a id="line.56">    @Override</a>
 <span class="sourceLineNo">057</span><a id="line.57">    public @NotNull @Unmodifiable Set&lt;KeyedMessage&gt; getMessages() {</a>
 <span class="sourceLineNo">058</span><a id="line.58">        return messageMap.entrySet()</a>
 <span class="sourceLineNo">059</span><a id="line.59">                .stream()</a>
-<span class="sourceLineNo">060</span><a id="line.60">                .map(e -&gt; KeyedMessage.create(e.getKey(), e.getValue().getMessage()))</a>
+<span class="sourceLineNo">060</span><a id="line.60">                .map(e -&gt; KeyedMessage.create(e.getKey(), e.getValue()))</a>
 <span class="sourceLineNo">061</span><a id="line.61">                .collect(Collectors.toUnmodifiableSet());</a>
 <span class="sourceLineNo">062</span><a id="line.62">    }</a>
 <span class="sourceLineNo">063</span><a id="line.63"></a>
 <span class="sourceLineNo">064</span><a id="line.64">    @Override</a>
-<span class="sourceLineNo">065</span><a id="line.65">    public @Nullable Translation toTranslation() {</a>
-<span class="sourceLineNo">066</span><a id="line.66">        var locale = parseLocaleFromFileName();</a>
-<span class="sourceLineNo">067</span><a id="line.67"></a>
-<span class="sourceLineNo">068</span><a id="line.68">        return locale != null ? toTranslation(locale) : null;</a>
-<span class="sourceLineNo">069</span><a id="line.69">    }</a>
-<span class="sourceLineNo">070</span><a id="line.70"></a>
-<span class="sourceLineNo">071</span><a id="line.71">    @Override</a>
-<span class="sourceLineNo">072</span><a id="line.72">    public @NotNull Translation toTranslation(@NotNull Locale locale) {</a>
-<span class="sourceLineNo">073</span><a id="line.73">        return Translation.create(</a>
-<span class="sourceLineNo">074</span><a id="line.74">                getMessageMap().entrySet()</a>
-<span class="sourceLineNo">075</span><a id="line.75">                        .stream()</a>
-<span class="sourceLineNo">076</span><a id="line.76">                        .map(e -&gt; TranslatedMessage.create(e.getKey(), e.getValue().getMessage(), locale))</a>
-<span class="sourceLineNo">077</span><a id="line.77">                        .collect(Collectors.toUnmodifiableMap(KeyedMessage::getKey, t -&gt; t)),</a>
-<span class="sourceLineNo">078</span><a id="line.78">                locale</a>
-<span class="sourceLineNo">079</span><a id="line.79">        );</a>
-<span class="sourceLineNo">080</span><a id="line.80">    }</a>
-<span class="sourceLineNo">081</span><a id="line.81"></a>
-<span class="sourceLineNo">082</span><a id="line.82">    protected @NotNull Path getPath() {</a>
-<span class="sourceLineNo">083</span><a id="line.83">        return path;</a>
-<span class="sourceLineNo">084</span><a id="line.84">    }</a>
-<span class="sourceLineNo">085</span><a id="line.85"></a>
-<span class="sourceLineNo">086</span><a id="line.86">    protected @NotNull Map&lt;String, Message&gt; getMessageMap() {</a>
-<span class="sourceLineNo">087</span><a id="line.87">        return messageMap;</a>
-<span class="sourceLineNo">088</span><a id="line.88">    }</a>
-<span class="sourceLineNo">089</span><a id="line.89"></a>
-<span class="sourceLineNo">090</span><a id="line.90">    private @Nullable Locale parseLocaleFromFileName() {</a>
-<span class="sourceLineNo">091</span><a id="line.91">        var filePath = path.getFileName();</a>
-<span class="sourceLineNo">092</span><a id="line.92"></a>
-<span class="sourceLineNo">093</span><a id="line.93">        if (filePath == null) {</a>
-<span class="sourceLineNo">094</span><a id="line.94">            return null;</a>
-<span class="sourceLineNo">095</span><a id="line.95">        }</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">        var fileName = filePath.toString().toCharArray();</a>
-<span class="sourceLineNo">098</span><a id="line.98">        var builder = new StringBuilder();</a>
-<span class="sourceLineNo">099</span><a id="line.99"></a>
-<span class="sourceLineNo">100</span><a id="line.100">        for (var c : fileName) {</a>
-<span class="sourceLineNo">101</span><a id="line.101">            if (c != '.') {</a>
-<span class="sourceLineNo">102</span><a id="line.102">                builder.append(c);</a>
-<span class="sourceLineNo">103</span><a id="line.103">            } else {</a>
-<span class="sourceLineNo">104</span><a id="line.104">                break;</a>
-<span class="sourceLineNo">105</span><a id="line.105">            }</a>
-<span class="sourceLineNo">106</span><a id="line.106">        }</a>
-<span class="sourceLineNo">107</span><a id="line.107"></a>
-<span class="sourceLineNo">108</span><a id="line.108">        return LocaleParser.parse(builder.toString());</a>
-<span class="sourceLineNo">109</span><a id="line.109">    }</a>
-<span class="sourceLineNo">110</span><a id="line.110">}</a>
+<span class="sourceLineNo">065</span><a id="line.65">    public @Nullable Locale getLocale() {</a>
+<span class="sourceLineNo">066</span><a id="line.66">        return parseLocaleFromFileName();</a>
+<span class="sourceLineNo">067</span><a id="line.67">    }</a>
+<span class="sourceLineNo">068</span><a id="line.68"></a>
+<span class="sourceLineNo">069</span><a id="line.69">    @Override</a>
+<span class="sourceLineNo">070</span><a id="line.70">    public @NotNull Map&lt;String, MessageFormat&gt; toMessageFormatMap() {</a>
+<span class="sourceLineNo">071</span><a id="line.71">        return messageMap.entrySet()</a>
+<span class="sourceLineNo">072</span><a id="line.72">                .stream()</a>
+<span class="sourceLineNo">073</span><a id="line.73">                .collect(</a>
+<span class="sourceLineNo">074</span><a id="line.74">                        Collectors.toUnmodifiableMap(</a>
+<span class="sourceLineNo">075</span><a id="line.75">                                Map.Entry::getKey,</a>
+<span class="sourceLineNo">076</span><a id="line.76">                                e -&gt; new MessageFormat(e.getValue())</a>
+<span class="sourceLineNo">077</span><a id="line.77">                        )</a>
+<span class="sourceLineNo">078</span><a id="line.78">                );</a>
+<span class="sourceLineNo">079</span><a id="line.79">    }</a>
+<span class="sourceLineNo">080</span><a id="line.80"></a>
+<span class="sourceLineNo">081</span><a id="line.81">    protected @NotNull Path getPath() {</a>
+<span class="sourceLineNo">082</span><a id="line.82">        return path;</a>
+<span class="sourceLineNo">083</span><a id="line.83">    }</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">    protected @NotNull Map&lt;String, String&gt; getMessageMap() {</a>
+<span class="sourceLineNo">086</span><a id="line.86">        return messageMap;</a>
+<span class="sourceLineNo">087</span><a id="line.87">    }</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">    private @Nullable Locale parseLocaleFromFileName() {</a>
+<span class="sourceLineNo">090</span><a id="line.90">        var filePath = path.getFileName();</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">        if (filePath == null) {</a>
+<span class="sourceLineNo">093</span><a id="line.93">            return null;</a>
+<span class="sourceLineNo">094</span><a id="line.94">        }</a>
+<span class="sourceLineNo">095</span><a id="line.95"></a>
+<span class="sourceLineNo">096</span><a id="line.96">        var fileName = filePath.toString().toCharArray();</a>
+<span class="sourceLineNo">097</span><a id="line.97">        var builder = new StringBuilder();</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">        for (var c : fileName) {</a>
+<span class="sourceLineNo">100</span><a id="line.100">            if (c != '.') {</a>
+<span class="sourceLineNo">101</span><a id="line.101">                builder.append(c);</a>
+<span class="sourceLineNo">102</span><a id="line.102">            } else {</a>
+<span class="sourceLineNo">103</span><a id="line.103">                break;</a>
+<span class="sourceLineNo">104</span><a id="line.104">            }</a>
+<span class="sourceLineNo">105</span><a id="line.105">        }</a>
+<span class="sourceLineNo">106</span><a id="line.106"></a>
+<span class="sourceLineNo">107</span><a id="line.107">        return LocaleParser.parse(builder.toString());</a>
+<span class="sourceLineNo">108</span><a id="line.108">    }</a>
+<span class="sourceLineNo">109</span><a id="line.109">}</a>
 
 
 

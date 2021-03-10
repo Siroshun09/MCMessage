@@ -17,7 +17,6 @@
 package com.github.siroshun09.mcmessage.loader;
 
 import com.github.siroshun09.mcmessage.message.KeyedMessage;
-import com.github.siroshun09.mcmessage.message.Message;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -61,7 +60,7 @@ class PropertiesLoader extends AbstractMessageLoader {
             if (getMessageMap().containsKey(strKey)) {
                 duplicate.add(new DuplicateKeyMessage(strKey, strValue));
             } else {
-                getMessageMap().put(strKey, Message.create(strValue));
+                getMessageMap().put(strKey, strValue);
             }
         }
 

@@ -106,7 +106,7 @@ public abstract class AbstractTranslationLoader implements TranslationLoader {
         return fileExtension;
     }
 
-    protected abstract void saveDefaultIfNotExists();
+    protected abstract void saveDefaultIfNotExists() throws IOException;
 
     protected abstract @NotNull FileConfiguration createFileConfiguration(@NotNull Path path);
 

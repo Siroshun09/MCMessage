@@ -95,39 +95,59 @@
 <span class="sourceLineNo">086</span><a id="line.86">        return Set.copyOf(loadedLocales);</a>
 <span class="sourceLineNo">087</span><a id="line.87">    }</a>
 <span class="sourceLineNo">088</span><a id="line.88"></a>
-<span class="sourceLineNo">089</span><a id="line.89">    protected abstract void saveDefaultIfNotExists();</a>
-<span class="sourceLineNo">090</span><a id="line.90"></a>
-<span class="sourceLineNo">091</span><a id="line.91">    protected abstract @NotNull FileConfiguration createFileConfiguration(@NotNull Path path);</a>
-<span class="sourceLineNo">092</span><a id="line.92"></a>
-<span class="sourceLineNo">093</span><a id="line.93">    private void loadDefault() throws IOException {</a>
-<span class="sourceLineNo">094</span><a id="line.94">        var defaultFileName = defaultLocale + fileExtension;</a>
-<span class="sourceLineNo">095</span><a id="line.95">        var defaultFile = directory.resolve(defaultFileName);</a>
-<span class="sourceLineNo">096</span><a id="line.96"></a>
-<span class="sourceLineNo">097</span><a id="line.97">        loadFile(defaultFile);</a>
-<span class="sourceLineNo">098</span><a id="line.98">    }</a>
-<span class="sourceLineNo">099</span><a id="line.99"></a>
-<span class="sourceLineNo">100</span><a id="line.100">    private void loadCustom() throws IOException {</a>
-<span class="sourceLineNo">101</span><a id="line.101">        try (var files = Files.list(directory)) {</a>
-<span class="sourceLineNo">102</span><a id="line.102">            var languageFiles = files.filter(Files::isRegularFile)</a>
-<span class="sourceLineNo">103</span><a id="line.103">                    .filter(p -&gt; !p.toString().endsWith(defaultLocale + fileExtension))</a>
-<span class="sourceLineNo">104</span><a id="line.104">                    .collect(Collectors.toUnmodifiableSet());</a>
-<span class="sourceLineNo">105</span><a id="line.105"></a>
-<span class="sourceLineNo">106</span><a id="line.106">            for (var file : languageFiles) {</a>
-<span class="sourceLineNo">107</span><a id="line.107">                loadFile(file);</a>
-<span class="sourceLineNo">108</span><a id="line.108">            }</a>
-<span class="sourceLineNo">109</span><a id="line.109">        }</a>
-<span class="sourceLineNo">110</span><a id="line.110">    }</a>
-<span class="sourceLineNo">111</span><a id="line.111"></a>
-<span class="sourceLineNo">112</span><a id="line.112">    private void loadFile(@NotNull Path path) throws IOException {</a>
-<span class="sourceLineNo">113</span><a id="line.113">        var file = createFileConfiguration(path);</a>
-<span class="sourceLineNo">114</span><a id="line.114">        var loader = MessageLoader.fromFileConfiguration(file);</a>
-<span class="sourceLineNo">115</span><a id="line.115"></a>
-<span class="sourceLineNo">116</span><a id="line.116">        loader.load();</a>
-<span class="sourceLineNo">117</span><a id="line.117">        loader.registerToRegistry(registry);</a>
-<span class="sourceLineNo">118</span><a id="line.118"></a>
-<span class="sourceLineNo">119</span><a id="line.119">        Optional.ofNullable(loader.getLocale()).ifPresent(loadedLocales::add);</a>
-<span class="sourceLineNo">120</span><a id="line.120">    }</a>
-<span class="sourceLineNo">121</span><a id="line.121">}</a>
+<span class="sourceLineNo">089</span><a id="line.89">    @Override</a>
+<span class="sourceLineNo">090</span><a id="line.90">    public @NotNull Path getDirectory() {</a>
+<span class="sourceLineNo">091</span><a id="line.91">        return directory;</a>
+<span class="sourceLineNo">092</span><a id="line.92">    }</a>
+<span class="sourceLineNo">093</span><a id="line.93"></a>
+<span class="sourceLineNo">094</span><a id="line.94">    @Override</a>
+<span class="sourceLineNo">095</span><a id="line.95">    public @NotNull Key getRegistryKey() {</a>
+<span class="sourceLineNo">096</span><a id="line.96">        return registryKey;</a>
+<span class="sourceLineNo">097</span><a id="line.97">    }</a>
+<span class="sourceLineNo">098</span><a id="line.98"></a>
+<span class="sourceLineNo">099</span><a id="line.99">    @Override</a>
+<span class="sourceLineNo">100</span><a id="line.100">    public @NotNull Locale getDefaultLocale() {</a>
+<span class="sourceLineNo">101</span><a id="line.101">        return defaultLocale;</a>
+<span class="sourceLineNo">102</span><a id="line.102">    }</a>
+<span class="sourceLineNo">103</span><a id="line.103"></a>
+<span class="sourceLineNo">104</span><a id="line.104">    @Override</a>
+<span class="sourceLineNo">105</span><a id="line.105">    public @NotNull String getFileExtension() {</a>
+<span class="sourceLineNo">106</span><a id="line.106">        return fileExtension;</a>
+<span class="sourceLineNo">107</span><a id="line.107">    }</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">    protected abstract void saveDefaultIfNotExists() throws IOException;</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">    protected abstract @NotNull FileConfiguration createFileConfiguration(@NotNull Path path);</a>
+<span class="sourceLineNo">112</span><a id="line.112"></a>
+<span class="sourceLineNo">113</span><a id="line.113">    private void loadDefault() throws IOException {</a>
+<span class="sourceLineNo">114</span><a id="line.114">        var defaultFileName = defaultLocale + fileExtension;</a>
+<span class="sourceLineNo">115</span><a id="line.115">        var defaultFile = directory.resolve(defaultFileName);</a>
+<span class="sourceLineNo">116</span><a id="line.116"></a>
+<span class="sourceLineNo">117</span><a id="line.117">        loadFile(defaultFile);</a>
+<span class="sourceLineNo">118</span><a id="line.118">    }</a>
+<span class="sourceLineNo">119</span><a id="line.119"></a>
+<span class="sourceLineNo">120</span><a id="line.120">    private void loadCustom() throws IOException {</a>
+<span class="sourceLineNo">121</span><a id="line.121">        try (var files = Files.list(directory)) {</a>
+<span class="sourceLineNo">122</span><a id="line.122">            var languageFiles = files.filter(Files::isRegularFile)</a>
+<span class="sourceLineNo">123</span><a id="line.123">                    .filter(p -&gt; !p.toString().endsWith(defaultLocale + fileExtension))</a>
+<span class="sourceLineNo">124</span><a id="line.124">                    .collect(Collectors.toUnmodifiableSet());</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">            for (var file : languageFiles) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">                loadFile(file);</a>
+<span class="sourceLineNo">128</span><a id="line.128">            }</a>
+<span class="sourceLineNo">129</span><a id="line.129">        }</a>
+<span class="sourceLineNo">130</span><a id="line.130">    }</a>
+<span class="sourceLineNo">131</span><a id="line.131"></a>
+<span class="sourceLineNo">132</span><a id="line.132">    private void loadFile(@NotNull Path path) throws IOException {</a>
+<span class="sourceLineNo">133</span><a id="line.133">        var file = createFileConfiguration(path);</a>
+<span class="sourceLineNo">134</span><a id="line.134">        var loader = MessageLoader.fromFileConfiguration(file);</a>
+<span class="sourceLineNo">135</span><a id="line.135"></a>
+<span class="sourceLineNo">136</span><a id="line.136">        loader.load();</a>
+<span class="sourceLineNo">137</span><a id="line.137">        loader.registerToRegistry(registry);</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">        Optional.ofNullable(loader.getLocale()).ifPresent(loadedLocales::add);</a>
+<span class="sourceLineNo">140</span><a id="line.140">    }</a>
+<span class="sourceLineNo">141</span><a id="line.141">}</a>
 
 
 

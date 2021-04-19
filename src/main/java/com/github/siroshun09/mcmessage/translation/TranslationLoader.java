@@ -16,10 +16,12 @@
 
 package com.github.siroshun09.mcmessage.translation;
 
+import net.kyori.adventure.key.Key;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Set;
 
@@ -30,4 +32,12 @@ public interface TranslationLoader {
     void reload() throws IOException;
 
     @NotNull @Unmodifiable Set<Locale> getLoadedLocales();
+
+    @NotNull Path getDirectory();
+
+    @NotNull Key getRegistryKey();
+
+    @NotNull Locale getDefaultLocale();
+
+    @NotNull String getFileExtension();
 }

@@ -86,6 +86,26 @@ public abstract class AbstractTranslationLoader implements TranslationLoader {
         return Set.copyOf(loadedLocales);
     }
 
+    @Override
+    public @NotNull Path getDirectory() {
+        return directory;
+    }
+
+    @Override
+    public @NotNull Key getRegistryKey() {
+        return registryKey;
+    }
+
+    @Override
+    public @NotNull Locale getDefaultLocale() {
+        return defaultLocale;
+    }
+
+    @Override
+    public @NotNull String getFileExtension() {
+        return fileExtension;
+    }
+
     protected abstract void saveDefaultIfNotExists();
 
     protected abstract @NotNull FileConfiguration createFileConfiguration(@NotNull Path path);

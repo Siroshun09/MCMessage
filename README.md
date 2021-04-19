@@ -14,7 +14,7 @@
 <dependency>
     <groupId>com.github.siroshun09.mcmessage</groupId>
     <artifactId>mcmessage</artifactId>
-    <version>2.2.0</version>
+    <version>2.2.1</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@
 
 ```
     dependencies {
-        compile 'com.github.siroshun09.mcmessage:mcmessage:2.2.0'
+        compile 'com.github.siroshun09.mcmessage:mcmessage:2.2.1'
     }
 ```
 
